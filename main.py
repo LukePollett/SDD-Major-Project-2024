@@ -1,32 +1,19 @@
-import pygame
 import tkinter as tk
+from tkinter import *
+from time import time, ctime, sleep
 
-# IDEA FOR MAJOR WORK:
-    # Create a grid of squares
-    # Each square is either a wall or a path
-    # The user can click on a square to toggle it between a wall and a path
-    # The user can place a starting and destination square
-    # Use pythagoras' theorem to determine the distance between start and destination
-    # Check all squares around the start square and determine the distance between them and the destination
-    # Move to the square with the lowest distance, then check again from that square
-
-# FURTHER IDEAS (difficult but worth it to implement if you have time)  
-    # Maybe turn the project into a game?
-    # Try and get it to work with real-world cities
-    # Try and implement public transport routs as well as driving routes
-    # Create a function that determines the time it takes to travel between two points
-    # Create a function that determines the cost of travelling between two points
-    # Create a function that can determine traffic conditions
-    # Create a function that can determine the weather
-    # Create a function that can determine travel times for different times of day
+# OFFICIAL IDEA: Make the HSC Clock thingo better
 
 # Create the main window
 root = tk.Tk()
-root.title("Pathfinding API Simulator")
+root.geometry("700x500")
+root.title("HSC Timer")
 
 # Create the canvas for displaying the grid
-canvas = tk.Canvas(root, width=500, height=500, bg="white")
+canvas = tk.Canvas(root, width=500, height=500, bg="black")
 canvas.pack(side=tk.LEFT)
+clock = tk.Label(canvas, text=ctime(), bg="white", fg="black")
+clock.place(relx=0.5, rely=0.5, anchor="center")
 
 # Create the frame for the controls
 controls_frame = tk.Frame(root, padx=10, pady=10)
@@ -44,3 +31,10 @@ reset_button.pack(pady=5)
 
 # Start the main loop
 root.mainloop()
+
+# This makes a working, ticking clock in the terminal
+# while True:
+#     print(ctime())
+#     sleep(1)
+
+
