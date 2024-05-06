@@ -1,22 +1,24 @@
 import tkinter as tk
 from tkinter import *
-from time import time, ctime, sleep
+from time import ctime, sleep
+from random import randint
 
 # OFFICIAL IDEA: Make the HSC Clock thingo better
 
 # Create the main window
-root = tk.Tk()
-root.geometry("700x500")
-root.title("HSC Timer")
+main_window = tk.Tk()
+main_window.geometry("700x500")
+main_window.title("HSC Timer")
 
 # Create the canvas for displaying the grid
-canvas = tk.Canvas(root, width=500, height=500, bg="black")
+canvas = tk.Canvas(main_window, width=500, height=500, bg="white")
 canvas.pack(side=tk.LEFT)
-clock = tk.Label(canvas, text=ctime(), bg="white", fg="black")
+clock = tk.Label(canvas, text=ctime(), font=('Arial', 25), bg="white", 
+                 fg="black", borderwidth=3, relief="solid")
 clock.place(relx=0.5, rely=0.5, anchor="center")
 
 # Create the frame for the controls
-controls_frame = tk.Frame(root, padx=10, pady=10)
+controls_frame = tk.Frame(main_window, padx=10, pady=10)
 controls_frame.pack(side=tk.RIGHT)
 
 # Create the controls
@@ -29,12 +31,12 @@ stop_button.pack(pady=5)
 reset_button = tk.Button(controls_frame, text="Reset")
 reset_button.pack(pady=5)
 
-# Start the main loop
-root.mainloop()
+def update_time():
+    clock['text'] = ctime()
+    main_window.after(1000, update_time)
 
-# This makes a working, ticking clock in the terminal
-# while True:
-#     print(ctime())
-#     sleep(1)
+update_time()
+
+main_window.mainloop()
 
 
