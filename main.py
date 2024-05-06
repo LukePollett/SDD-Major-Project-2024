@@ -1,134 +1,112 @@
 # Implemented Python Libraries:
 import tkinter as tk
-from tkinter import *
+import time
 from PIL import Image,ImageTk
-from time import ctime
-from random import randint
-from datetime import datetime
 import math
-
-# Im planning on re-vamping the entire code pretty much; 
-# getting rid of the clock face on the canvas (as well as its items to reduce lag). 
-# if i implement the techniques seen on the test.py file, 
-# i might be able to make a reliable program for long periods of time
-# however this will require a metric ton of maths and i dont know if my brain can
-# last that long without procrastination.
 
 # Create the main class for the ExamTimer
 class ExamTimer():
 
     # Initializing the main window
     def __init__(self):
+
+        # Window Properties
         self.main_window = tk.Tk()
-        self.main_window.geometry("800x600")
+
+        # Making the window fullscreen (ish)
+        width = self.main_window.winfo_screenwidth() 
+        height = self.main_window.winfo_screenheight()
+        self.main_window.state('zoomed')
+        self.main_window.geometry("%dx%d" % (width, height))
+
         self.main_window.title("ExamTimer")
 
-        self.main_canvas = tk.Canvas(self.main_window, width=700, height=600, bg="white")
+        # Create the canvas for the main window
+        self.main_canvas = tk.Canvas(self.main_window, width=width, height=height, bg="white")
         self.main_canvas.pack(side=tk.LEFT)
 
-        temp_bg = Image.open("clock.png")
-        resized_bg = temp_bg.resize((307, 307))
-        bg = ImageTk.PhotoImage(resized_bg)
-        self.main_canvas.create_image(351, 47, image = bg, anchor = "n")
-        self.main_canvas.create_oval(344, 194, 356, 206, fill="black", width=2)
+        # Create the settings button
+        temp_img = Image.open("menu.png")
+        resized_bg = temp_img.resize((75, 75))
+        button_image = ImageTk.PhotoImage(resized_bg)
 
-        # Timer Label
-        self.timer_label = tk.Label(self.main_canvas, text="Time Remaining:", font=('Helvetica Bold', 35), bg="white", 
-                              fg="black", borderwidth=3, relief="groove").place(relx=0.5, rely=0.8, anchor="n")
-
-        # Create the canvas for the controls (start, stop, reset, settings)
-        self.timing_canvas = tk.Canvas(self.main_window, width=100, height=100)
-        self.timing_canvas.pack(side=tk.RIGHT)
-
-        #  Create the buttons for the controls
-        self.start_button = tk.Button(self.timing_canvas, text="Start", bg="Green", width=100, height=5).pack(pady=5)
-
-        self.stop_button = tk.Button(self.timing_canvas, text="Stop", bg="Red", width=100, height=5).pack(pady=5)
-
-        self.reset_button = tk.Button(self.timing_canvas, text="Reset", width=100, height=5).pack(pady=5)
-
-        self.settings_button = tk.Button(self.timing_canvas, text="Settings", width=100, height=5).pack(pady=5)
+        self.settings_button = tk.Button(self.main_canvas, image=button_image, borderwidth=0)
+        self.settings_button.place(relx=0.997, rely=0.005, anchor="ne")
         
         # Create analog clock face
-        # THIS CODE IS BEING SEALED OFF FOR NOW DON'T FREAK OUT
         def Analog_Clock():      
 
-        #     def update_hands():
-        #         local_time = ctime()
+            def draw_clock():
+                # Remove the previous sets of hands
+                self.main_canvas.delete("all")
 
-        #         def update_seconds():
-        #             # Update Second Hand Every 1 sec
-        #             seconds = int(local_time[17:19])
-        #             seconds_radians = math.radians(seconds)
-        #             seconds_radians = (seconds_radians * 6) - 1.5708
-        #             second_hand = self.main_canvas.create_line(350, 200, 350 + 140 * math.cos(seconds_radians), 200 + 140 * math.sin(seconds_radians), fill="red", width=3)
-        #             # self.main_canvas.after(1000, self.main_canvas.delete, second_hand)
-        #             self.main_window.after(1000, update_hands)
-                    
-        #         def update_minutes():
-        #             # Update Minute Hand Every 60 sec (1min)
-        #             minutes = int(local_time[14:16])
-        #             minutes_radians = math.radians(minutes)
-        #             minutes_radians = (minutes_radians * 6) - 1.5708
-        #             minute_hand = self.main_canvas.create_line(350, 200, 350 + 130 * math.cos(minutes_radians), 200 + 130 * math.sin(minutes_radians), fill="black", width=3)
-        #             # self.main_canvas.after(60000, self.main_canvas.delete, minute_hand)
-        #             self.main_window.after(60000, update_hands)
-                    
-        #         def update_hours():
-        #             # Update Hour Hand Every 3600 sec (1hr)
-        #             hours = int(local_time[11:13])
-        #             hours_radians = math.radians(hours)
-        #             hours_radians = (hours_radians * 30) - 1.5708
-        #             hour_hand = self.main_canvas.create_line(350, 200, 350 + 90 * math.cos(hours_radians), 200 + 100 * math.sin(hours_radians), fill="black", width=6)
-        #             # self.main_canvas.after(3600000, self.main_canvas.delete, hour_hand)
-        #             self.main_window.after(3600000, update_hands)
-                    
-        #         update_seconds()
-        #         update_minutes()
-        #         update_hours()
+                # Get current time
+                current_time = time.localtime()
 
-        #     update_hands()
-            pass
+                # Extracting hrs, mins, secs from current_time
+                second = current_time.tm_sec
+                minute = current_time.tm_min
+                hour = current_time.tm_hour
 
-        # Contains both the digital and analog clocks that display the computer's local time (ctime())
+                # Calculate angles for hour, minute, and second hands
+                second_angle = math.radians(second * 6) # the * 6 is because there are 360 degrees in a circle and 60 seconds in a minute, so 360 / 60 = 6, hence one second is 6 degrees
+                minute_angle = math.radians(minute * 6 + second / 10) # the + second / 10 makes the minute hand move slightly as the second hand moves
+                hour_angle = math.radians((hour % 12) * 30 + minute / 2) # the + minute / 2 does the same ^ for the hour hand
+
+                # Draw Clock Face (add numbers and notches, etc. below here)
+                self.main_canvas.create_oval(40, 40, 360, 360, outline="black" , width=5)
+                self.main_canvas.create_oval(45, 45, 355, 355, outline="black")
+                self.main_canvas.create_oval(195, 195, 205, 205, fill="black")
+
+                # Draw numbers and notches, et.c below here
+                # ______
+
+                # Draw The Hands:
+                hour_x = 200 + 80 * math.sin(hour_angle)
+                hour_y = 200 - 80 * math.cos(hour_angle)
+                self.main_canvas.create_line(200, 200, hour_x, hour_y, fill="black", width=6)
+
+                minute_x = 200 + 110 * math.sin(minute_angle)
+                minute_y = 200 - 110 * math.cos(minute_angle)
+                self.main_canvas.create_line(200, 200, minute_x, minute_y, fill="black", width=3)
+
+                second_x = 200 + 120 * math.sin(second_angle)
+                second_y = 200 - 120 * math.cos(second_angle)
+                self.main_canvas.create_line(200, 200, second_x, second_y, fill="red", width=2)
+
+                # Update the clock every 1000 ms (1 second)
+                self.main_canvas.after(1000, draw_clock)
+
+            draw_clock()
+
+        # Create the Digital Clock
         def Digital_Clock():
-            self.digi_clock_display = tk.Label(self.main_canvas, text=ctime(), font=('Helvetica Bold', 50), bg="white", 
+
+            # Create the digital clock display
+            self.digi_clock_display = tk.Label(self.main_canvas, text="", font=('Helvetica Bold', 75), bg="white", 
                               fg="black", borderwidth=3, relief="groove")
-            self.digi_clock_display.place(relx=0.5, rely=0.65, anchor="n")
+            self.digi_clock_display.place(relx=0.25, rely=0.7, anchor="n")
 
-            local_time = ctime()
-            displayed_time = local_time[11:19]
-            hours = int(local_time[11:13])
-            
-            # Convert Local Computer Time to 12-Hour Time:
-            if hours > 12:
-                new_hours = hours - 12
-                displayed_time = displayed_time.replace(local_time[11:13], str(new_hours), 1)
-                displayed_time += " pm"
+            # Get the current time
+            current_time = time.strftime('%I:%M:%S %p')
+            # %I auto-converts to 12-hour time
+            # %M is minutes, %S is seconds, %p is AM/PM
 
-            elif hours == 12:
-                displayed_time += " pm"
+            # Update the clock display with new time
+            self.digi_clock_display.config(text=current_time)
 
-            elif hours == 0:
-                new_hours = hours + 12
-                displayed_time = displayed_time.replace(local_time[11:13], str(new_hours), 1)
-                displayed_time += " am"
-            
-            elif hours < 12:
-                displayed_time += " am"
-
-            # Update the Clock(s) every second
-            self.digi_clock_display['text'] = displayed_time
+            # Update the clock every 1000 ms (1 second)
             self.main_window.after(1000, Digital_Clock)
 
-        # stub
+        """
         def exam_timer():
             # Timer/Countdown for the exam:
                 # Maybe implement an alarm/noise when the timer reaches 0
                     # Do not make noise too loud, but loud enough to be heard
                         # Assists with accessibility for those who are triggered by loud noises
-            pass
+        """
 
+        # Create/Draw Both Clocks
         Analog_Clock()
         Digital_Clock()
 
