@@ -5,6 +5,8 @@ import time
 from PIL import Image,ImageTk
 import math
 
+# Invigilation Software for the HSC (+ maybs other exams)
+
 # Create the main class for the ExamTimer
 class ClockwiseScholar():
 
@@ -15,7 +17,7 @@ class ClockwiseScholar():
         self.main_window = tk.Tk()
 
         # Making the window fullscreen (ish)
-        width = self.main_window.winfo_screenwidth() 
+        width = self.main_window.winfo_screenwidth() # MacBook Resolution = 1440 x 900
         height = self.main_window.winfo_screenheight()
         self.main_window.state('zoomed')
         self.main_window.geometry("%dx%d" % (width, height))
@@ -244,18 +246,18 @@ class ClockwiseScholar():
                 
             def num_of_exams():
                 if check_box_variable.get() == 1:
-                    one.place(relx=0.2, rely=0.15, anchor = W)
-                    two.place(relx=0.4, rely=0.15, anchor = W)
-                    three.place(relx=0.6, rely=0.15, anchor = W)
+                    two.place(relx=0.35, rely=0.15, anchor = E)
+                    three.place(relx=0.5, rely=0.15, anchor = CENTER)
+                    four.place(relx=0.65, rely=0.15, anchor = W)
                 else:
-                    one.place_forget()
                     two.place_forget()
                     three.place_forget()
+                    four.place_forget()
 
             var = IntVar()
-            one = Radiobutton(settings_canvas, text="One Exam", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=1, command=selected_num_of_exams)
-            two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=2, command=selected_num_of_exams)
-            three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=3, command=selected_num_of_exams)
+            two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=1, command=selected_num_of_exams)
+            three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=2, command=selected_num_of_exams)
+            four = Radiobutton(settings_canvas, text="Four Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=3, command=selected_num_of_exams)
 
             check_box_variable = IntVar()
             multiple_exams_checkbox = tk.Checkbutton(settings_canvas, text='Multiple Exams', font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=check_box_variable, onvalue=1, offvalue=0, command=num_of_exams)
@@ -272,8 +274,7 @@ class ClockwiseScholar():
             # Create Label 
             selected_subject = Label(settings_canvas , text = " ",  font=("Helvetica Bold", 20), bg="light grey", fg="black") 
             selected_subject.place(relx=0.5, rely=0.4, anchor="center")
-
-
+            
         # The settings is where the exam supervisor can change the different exams taking place,
         # and the time for each exam. There will be no interactable widgets on the main display,
         # except for the settings button itself, + exam timer controls (start, stop, clear, etc.)
@@ -281,15 +282,25 @@ class ClockwiseScholar():
         self.settings_button.place(relx=0.975, rely=0.043, anchor="ne")
 
         # Placeholder Stuff for Exam Timer and Subject Info
-        self.labelframe = tk.LabelFrame(self.main_canvas, text="Examination Details", font=('Helvetica Bold', 20), width=600, height=100, fg="black", bg="white", borderwidth=6)
-        self.labelframe.place(relx=0.7, rely=0.5, anchor="center")
+        self.labelframe = tk.LabelFrame(self.main_canvas, text="Examination Details", font=('Helvetica Bold', 20), width=1000, height=100, fg="black", bg="white", borderwidth=6)
+        self.labelframe.place(relx=0.5, rely=0.5, anchor="w")
 
-        self.labelframe_text = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here", font=('Helvetica Bold', 20), fg="black", bg="white")
-        self.labelframe_text.pack(padx=15, pady=15)
+        # Variable Names Below Are Temorary, just to simulate multiple exams
+        self.labelframe_text1 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
+        self.labelframe_text1.pack(padx=15, pady=50)
+
+        self.labelframe_text2 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
+        self.labelframe_text2.pack(padx=15, pady=50)
+
+        self.labelframe_text3 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
+        self.labelframe_text3.pack(padx=15, pady=50)
+
+        self.labelframe_text4 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
+        self.labelframe_text4.pack(padx=15, pady=50)
 
         # Create analog clock face
         def Analog_Clock():      
-
+        
             def draw_clock():
                 # Remove the previous sets of hands
                 self.main_canvas.delete("all")
@@ -307,17 +318,24 @@ class ClockwiseScholar():
                 minute_angle = math.radians(minute * 6 + second / 10) # the + second / 10 makes the minute hand move slightly as the second hand moves
                 hour_angle = math.radians((hour % 12) * 30 + minute / 2) # the + minute / 2 does the same ^ for the hour hand
 
-                # Draw Clock Face (add numbers and notches, etc. below here)
+                # Draw Clock Face using tkinter-imbedded oval tool
                 self.main_canvas.create_oval(140, 80, 570, 510, outline="black" , width=8)
                 self.main_canvas.create_oval(150, 90, 560, 500, outline="lavender", width=5)
                 self.main_canvas.create_oval(350, 290, 360, 300, fill="black")
+                # self.main_canvas.create_oval(x0, y0, x1, y1, details ->...)
 
-                # Draw numbers
+                # Draw numbers on the clock face
                 for i in range(1, 13):
-                    angle = math.radians(i * 30) # 360 (degrees) / 12 (unique hours) = 30 (degree per hour)
+                    angle = math.radians(i * 30) # 360 (degrees) / 12 (unique hours) = 30 (degrees per hour)
+
+                    # the below code generates the x and y coordinates for where the number/text will be placed:
+                    # for the clock, we are using the sin/cosine maths functions which refers to the UNIT CIRCLE
                     x = 355 + 180 * math.sin(angle)
                     y = 295 - 180 * math.cos(angle)
+
+                    # Draw the numbers using tkinter text tool
                     self.main_canvas.create_text(x, y, text=str(i), font=("Helvetica", 25, "bold"), fill="black")
+                    # text=str(i) auto-fills the textbox with the number (1,2,3,...,12) as the for loop operates
 
                 # Draw notches
                 for i in range(60):
@@ -331,14 +349,12 @@ class ClockwiseScholar():
                         
                     else:
                         angle = math.radians(i * 6) # 1 notch for every second (360 (degree) / 60 (seconds) = 6 (degrees per second))
-                        x1 = 355 + 211 * math.sin(angle)
-                        y1 = 295 - 211 * math.cos(angle)
-                        x2 = 355 + 203 * math.sin(angle)
-                        y2 = 295 - 203 * math.cos(angle)
-                        self.main_canvas.create_line(x1, y1, x2, y2, width=3, fill="grey")
-
-                # Draw numbers and notches, et.c below here
-                # ______
+                        # edit these numbers to make them not slightly goofy??
+                        x1 = 355 + 213 * math.sin(angle)
+                        y1 = 295 - 213 * math.cos(angle)
+                        x2 = 355 + 205 * math.sin(angle)
+                        y2 = 295 - 205 * math.cos(angle)
+                        self.main_canvas.create_line(x1, y1, x2, y2, width=3, fill="black")
 
                 # Draw The Hands:
                 hour_x = 355 + 120 * math.sin(hour_angle)
