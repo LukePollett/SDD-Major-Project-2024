@@ -7,7 +7,7 @@ from random import randint
 from datetime import datetime
 import math
 
-print(ctime())
+
 # Create the main class for the ExamTimer
 class ExamTimer():
 
@@ -23,7 +23,8 @@ class ExamTimer():
         temp_bg = Image.open("clock.png")
         resized_bg = temp_bg.resize((307, 307))
         bg = ImageTk.PhotoImage(resized_bg)
-        self.main_canvas.create_image(0, 0, image = bg, anchor = "nw")
+        self.main_canvas.create_image(351, 47, image = bg, anchor = "n")
+        self.main_canvas.create_oval(344, 194, 356, 206, fill="black", width=2)
 
         # Timer Label
         self.timer_label = tk.Label(self.main_canvas, text="Time Remaining:", font=('Helvetica Bold', 35), bg="white", 
@@ -45,12 +46,6 @@ class ExamTimer():
         # Create analog clock face
         def Analog_Clock():      
 
-            # def refresh_clock():
-            #     temp_bg = Image.open("clock.png")
-            #     resized_bg = temp_bg.resize((307, 307))
-            #     bg = ImageTk.PhotoImage(resized_bg)
-            #     self.hands_canvas.create_image(0, 0, image = bg, anchor = "nw")
-
             def update_hands():
                 local_time = ctime()
 
@@ -59,18 +54,21 @@ class ExamTimer():
                     seconds = int(local_time[17:19])
                     seconds_radians = math.radians(seconds)
                     seconds_radians = (seconds_radians * 6) - 1.5708
-                    self.main_canvas.delete("all")
-                    self.main_canvas.create_line(350, 200, 350 + 140 * math.cos(seconds_radians), 200 + 140 * math.sin(seconds_radians), fill="red", width=3)
+                    second_hand = self.main_canvas.create_line(350, 200, 350 + 140 * math.cos(seconds_radians), 200 + 140 * math.sin(seconds_radians), fill="red", width=3)
+                    self.main_canvas.after(1000, self.main_canvas.delete, second_hand)
                     self.main_window.after(1000, update_hands)
-                    # refresh_clock()
+                    
+
 
                 def update_minutes():
                     # Update Minute Hand Every 60 sec (1min)
                     minutes = int(local_time[14:16])
                     minutes_radians = math.radians(minutes)
                     minutes_radians = (minutes_radians * 6) - 1.5708
-                    self.main_canvas.create_line(350, 200, 350 + 130 * math.cos(minutes_radians), 200 + 130 * math.sin(minutes_radians), fill="black", width=3)
+                    minute_hand = self.main_canvas.create_line(350, 200, 350 + 130 * math.cos(minutes_radians), 200 + 130 * math.sin(minutes_radians), fill="black", width=3)
+                    self.main_canvas.after(60000, self.main_canvas.delete, minute_hand)
                     self.main_window.after(60000, update_hands)
+                    
 
 
                 def update_hours():
@@ -78,8 +76,10 @@ class ExamTimer():
                     hours = int(local_time[11:13])
                     hours_radians = math.radians(hours)
                     hours_radians = (hours_radians * 30) - 1.5708
-                    self.main_canvas.create_line(350, 200, 350 + 100 * math.cos(hours_radians), 200 + 100 * math.sin(hours_radians), fill="black", width=6)
+                    hour_hand = self.main_canvas.create_line(350, 200, 350 + 90 * math.cos(hours_radians), 200 + 100 * math.sin(hours_radians), fill="black", width=6)
+                    self.main_canvas.after(3600000, self.main_canvas.delete, hour_hand)
                     self.main_window.after(3600000, update_hands)
+                    
 
                 update_seconds()
                 update_minutes()
