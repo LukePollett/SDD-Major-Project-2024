@@ -7,6 +7,12 @@ from random import randint
 from datetime import datetime
 import math
 
+# Im planning on re-vamping the entire code pretty much; 
+# getting rid of the clock face on the canvas (as well as its items to reduce lag). 
+# if i implement the techniques seen on the test.py file, 
+# i might be able to make a reliable program for long periods of time
+# however this will require a metric ton of maths and i dont know if my brain can
+# last that long without procrastination.
 
 # Create the main class for the ExamTimer
 class ExamTimer():
@@ -44,43 +50,45 @@ class ExamTimer():
         self.settings_button = tk.Button(self.timing_canvas, text="Settings", width=100, height=5).pack(pady=5)
         
         # Create analog clock face
+        # THIS CODE IS BEING SEALED OFF FOR NOW DON'T FREAK OUT
         def Analog_Clock():      
 
-            def update_hands():
-                local_time = ctime()
+        #     def update_hands():
+        #         local_time = ctime()
 
-                def update_seconds():
-                    # Update Second Hand Every 1 sec
-                    seconds = int(local_time[17:19])
-                    seconds_radians = math.radians(seconds)
-                    seconds_radians = (seconds_radians * 6) - 1.5708
-                    second_hand = self.main_canvas.create_line(350, 200, 350 + 140 * math.cos(seconds_radians), 200 + 140 * math.sin(seconds_radians), fill="red", width=3)
-                    # self.main_canvas.after(1000, self.main_canvas.delete, second_hand)
-                    self.main_window.after(1000, update_hands)
+        #         def update_seconds():
+        #             # Update Second Hand Every 1 sec
+        #             seconds = int(local_time[17:19])
+        #             seconds_radians = math.radians(seconds)
+        #             seconds_radians = (seconds_radians * 6) - 1.5708
+        #             second_hand = self.main_canvas.create_line(350, 200, 350 + 140 * math.cos(seconds_radians), 200 + 140 * math.sin(seconds_radians), fill="red", width=3)
+        #             # self.main_canvas.after(1000, self.main_canvas.delete, second_hand)
+        #             self.main_window.after(1000, update_hands)
                     
-                def update_minutes():
-                    # Update Minute Hand Every 60 sec (1min)
-                    minutes = int(local_time[14:16])
-                    minutes_radians = math.radians(minutes)
-                    minutes_radians = (minutes_radians * 6) - 1.5708
-                    minute_hand = self.main_canvas.create_line(350, 200, 350 + 130 * math.cos(minutes_radians), 200 + 130 * math.sin(minutes_radians), fill="black", width=3)
-                    # self.main_canvas.after(60000, self.main_canvas.delete, minute_hand)
-                    self.main_window.after(60000, update_hands)
+        #         def update_minutes():
+        #             # Update Minute Hand Every 60 sec (1min)
+        #             minutes = int(local_time[14:16])
+        #             minutes_radians = math.radians(minutes)
+        #             minutes_radians = (minutes_radians * 6) - 1.5708
+        #             minute_hand = self.main_canvas.create_line(350, 200, 350 + 130 * math.cos(minutes_radians), 200 + 130 * math.sin(minutes_radians), fill="black", width=3)
+        #             # self.main_canvas.after(60000, self.main_canvas.delete, minute_hand)
+        #             self.main_window.after(60000, update_hands)
                     
-                def update_hours():
-                    # Update Hour Hand Every 3600 sec (1hr)
-                    hours = int(local_time[11:13])
-                    hours_radians = math.radians(hours)
-                    hours_radians = (hours_radians * 30) - 1.5708
-                    hour_hand = self.main_canvas.create_line(350, 200, 350 + 90 * math.cos(hours_radians), 200 + 100 * math.sin(hours_radians), fill="black", width=6)
-                    # self.main_canvas.after(3600000, self.main_canvas.delete, hour_hand)
-                    self.main_window.after(3600000, update_hands)
+        #         def update_hours():
+        #             # Update Hour Hand Every 3600 sec (1hr)
+        #             hours = int(local_time[11:13])
+        #             hours_radians = math.radians(hours)
+        #             hours_radians = (hours_radians * 30) - 1.5708
+        #             hour_hand = self.main_canvas.create_line(350, 200, 350 + 90 * math.cos(hours_radians), 200 + 100 * math.sin(hours_radians), fill="black", width=6)
+        #             # self.main_canvas.after(3600000, self.main_canvas.delete, hour_hand)
+        #             self.main_window.after(3600000, update_hands)
                     
-                update_seconds()
-                update_minutes()
-                update_hours()
+        #         update_seconds()
+        #         update_minutes()
+        #         update_hours()
 
-            update_hands()
+        #     update_hands()
+            pass
 
         # Contains both the digital and analog clocks that display the computer's local time (ctime())
         def Digital_Clock():
