@@ -33,8 +33,6 @@ class ClockwiseScholar():
         resized_bg = temp_img.resize((75, 75))
         button_image = ImageTk.PhotoImage(resized_bg)
 
-        # Messing around with popups
-
         def open_settings():
 
             # get main window position
