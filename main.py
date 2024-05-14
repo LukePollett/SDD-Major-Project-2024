@@ -232,9 +232,15 @@ class ClockwiseScholar():
                 "Visual Arts", # 1hr 30 mins working, 5 mins reading
             ]
 
-            clicked = StringVar() 
+            clicked = StringVar()
+            clicked2 = StringVar()
+            clicked3 = StringVar()
+            clicked4 = StringVar() 
 
             clicked.set("<< Select an Option >>")
+            clicked2.set("<< Select an Option >>")
+            clicked3.set("<< Select an Option >>")
+            clicked4.set("<< Select an Option >>")
 
             dropdown_width = len(max(Stage_6_Subjects, key=len))
 
@@ -251,11 +257,32 @@ class ClockwiseScholar():
                     two.place_forget()
                     three.place_forget()
                     four.place_forget()
+                    second_dropdown.place_forget()
+                    third_dropdown.place_forget()
+                    fourth_dropdown.place_forget()
+
+            def place_exams():
+                    if var.get() == 1:
+                        second_dropdown.place(relx=0.5, rely=0.4, anchor="center")
+                        third_dropdown.place_forget()
+                        fourth_dropdown.place_forget()
+                    elif var.get() == 2:
+                        second_dropdown.place(relx=0.5, rely=0.4, anchor="center")
+                        third_dropdown.place(relx=0.5, rely=0.5, anchor="center")
+                        fourth_dropdown.place_forget()
+                    elif var.get() == 3:
+                        second_dropdown.place(relx=0.5, rely=0.4, anchor="center")
+                        third_dropdown.place(relx=0.5, rely=0.5, anchor="center")
+                        fourth_dropdown.place(relx=0.5, rely=0.6, anchor="center")
+                    else:
+                        second_dropdown.place_forget()
+                        third_dropdown.place_forget()
+                        fourth_dropdown.place_forget()
 
             var = IntVar()
-            two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=1, command=selected_num_of_exams)
-            three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=2, command=selected_num_of_exams)
-            four = Radiobutton(settings_canvas, text="Four Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=3, command=selected_num_of_exams)
+            two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=1, command=place_exams)
+            three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=2, command=place_exams)
+            four = Radiobutton(settings_canvas, text="Four Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=3, command=place_exams)
 
             check_box_variable = IntVar()
             multiple_exams_checkbox = tk.Checkbutton(settings_canvas, text='Multiple Exams', font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=check_box_variable, onvalue=1, offvalue=0, command=num_of_exams)
@@ -264,14 +291,23 @@ class ClockwiseScholar():
             dropdown = OptionMenu(settings_canvas, clicked, *Stage_6_Subjects)
             dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
             dropdown.place(relx=0.5, rely=0.2, anchor="center")
-            
+
             # Create button, it will change label text 
             button = Button(settings_canvas , text = "Confirm", font=("Helvetica Bold", 20), bg="light grey", border=0, command = show)
-            button.place(relx=0.5, rely=0.3, anchor="center")
+            button.place(relx=0.1, rely=0.25, anchor="w")
+
+            second_dropdown = OptionMenu(settings_canvas, clicked2, *Stage_6_Subjects)
+            second_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
+
+            third_dropdown = OptionMenu(settings_canvas, clicked3, *Stage_6_Subjects)
+            third_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
             
+            fourth_dropdown = OptionMenu(settings_canvas, clicked4, *Stage_6_Subjects)
+            fourth_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
+
             # Create Label 
             selected_subject = Label(settings_canvas , text = " ",  font=("Helvetica Bold", 20), bg="light grey", fg="black") 
-            selected_subject.place(relx=0.5, rely=0.4, anchor="center")
+            selected_subject.place(relx=0.3, rely=0.25, anchor="w")
             
         # The settings is where the exam supervisor can change the different exams taking place,
         # and the time for each exam. There will be no interactable widgets on the main display,
