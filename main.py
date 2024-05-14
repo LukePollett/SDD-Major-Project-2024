@@ -67,59 +67,12 @@ class ClockwiseScholar():
                 elif clicked.get() == "-- Elective Courses --":
                     pass
                 else:
-                    selected_subject.config(text = clicked.get()) 
+                    selected_subject.delete(0, END)
+                    selected_subject.insert(0, clicked.get()) 
 
             # Subject Exam Selection for Stages 4 and 5 are kinda just there for placeholder purposes.
             # This program is mainly for Stage 6, but I added the other stages just in case in the future,
             # i want to have options to switch between year groups.
-
-            # Subject Exam Selection for Years 7 and 8
-            Stage_4_Subjects = [
-                "<< Select an Option >>",
-                "English",
-                "Geography",
-                "History",
-                "Chinese",
-                "Italian", 
-                "Japanese",
-                "Mathematics",
-                "Music",
-                "PDHPE",
-                "Religious Education",
-                "Science",
-                "Technology",
-                "Visual Arts"
-            ]
-
-            # Subject Exam Selection for Years 9 and 10
-            Stage_5_Subjects = [
-                "<< Select an Option >>",
-                "-- Mandatory Courses --",
-                "English",
-                "Geography",
-                "History",
-                "Mathematics",
-                "PDHPE",
-                "Religious Education",
-                "Science",
-                "-- Elective Courses --",
-                "Chinese",
-                "Chinese Native",
-                "Commerce",
-                "Design and Technology",
-                "Drama",
-                "History Elective",
-                "Industrial Technology - Engineering",
-                "Industrial Technology - Timber",
-                "Information and Software Technology",
-                "Chinese",
-                "Italian",
-                "Japanese",
-                "Music",
-                "Photographic and Digital Media",
-                "Physical Activity and Sports Studies",
-                "Visual Arts"
-            ]
 
             # Subject Exam Selection for Years 11 and 12 (Preliminary and HSC)(State-Wide)
             Stage_6_Subjects = [ 
@@ -173,19 +126,17 @@ class ClockwiseScholar():
                 "German Continuers", # 2hrs 50 mins working, 10 mins reading
                 "German Extension", # 1hr 50 mins working, 10 mins reading
                 "History Extension", # 2hrs working, 10 mins reading
-                "Hospitality - Food & Beverage", # 2hrs working, 5 mins reading
-                "Hospitality - Kitchen Operations & Cookery", # 2hrs working, 5 mins reading
                 "Human Services", # 2hrs working, 5 mins reading
                 "Indonesian Beginners", # 2hrs 30 mins working, 10 mins reading
                 "Indonesian Continuers", # 2hrs 50 mins working, 10 mins reading
                 "Indonesian Extension", # 1hr 50 mins working, 10 mins reading
                 "Indonesian & Literature", # 2hrs 50 mins working, 10 mins reading
-                "Industrial Technology - Automotive", # 1hr 30 mins working, 5 mins reading
-                "Industrial Technology - Electronics", # 1hr 30 mins working, 5 mins reading
-                "Industrial Technology - Graphics", # 1hr 30 mins working, 5 mins reading
-                "Industrial Technology - Metal & Engineering", # 1hr 30 mins working, 5 mins reading
-                "Industrial Technology - Multimedia", # 1hr 30 mins working, 5 mins reading
-                "Industrial Technology - Timber & Furniture", # 1hr 30 mins working, 5 mins reading
+                "IT - Automotive", # 1hr 30 mins working, 5 mins reading
+                "IT - Electronics", # 1hr 30 mins working, 5 mins reading
+                "IT - Graphics", # 1hr 30 mins working, 5 mins reading
+                "IT - Metal & Engineering", # 1hr 30 mins working, 5 mins reading
+                "IT - Multimedia", # 1hr 30 mins working, 5 mins reading
+                "IT - Timber & Furniture", # 1hr 30 mins working, 5 mins reading
                 "Information Processes & Technology", # 3hrs working, 5 mins reading
                 "Information & Digital Technology", # 2hrs working, 5 mins reading
                 "Investigating Science", # 3hrs working, 5 mins reading
@@ -237,10 +188,10 @@ class ClockwiseScholar():
             clicked3 = StringVar()
             clicked4 = StringVar() 
 
-            clicked.set("<< Select an Option >>")
-            clicked2.set("<< Select an Option >>")
-            clicked3.set("<< Select an Option >>")
-            clicked4.set("<< Select an Option >>")
+            clicked.set("<< Select a Subject >>")
+            clicked2.set("<< Select a Subject >>")
+            clicked3.set("<< Select a Subject >>")
+            clicked4.set("<< Select a Subject >>")
 
             dropdown_width = len(max(Stage_6_Subjects, key=len))
 
@@ -290,11 +241,11 @@ class ClockwiseScholar():
 
             dropdown = OptionMenu(settings_canvas, clicked, *Stage_6_Subjects)
             dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
-            dropdown.place(relx=0.5, rely=0.2, anchor="center")
+            dropdown.place(relx=0.1, rely=0.2, anchor="w")
 
             # Create button, it will change label text 
             button = Button(settings_canvas , text = "Confirm", font=("Helvetica Bold", 20), bg="light grey", border=0, command = show)
-            button.place(relx=0.1, rely=0.25, anchor="w")
+            button.place(relx=0.77, rely=0.2, anchor="w")
 
             second_dropdown = OptionMenu(settings_canvas, clicked2, *Stage_6_Subjects)
             second_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
@@ -306,8 +257,10 @@ class ClockwiseScholar():
             fourth_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
             # Create Label 
-            selected_subject = Label(settings_canvas , text = " ",  font=("Helvetica Bold", 20), bg="light grey", fg="black") 
-            selected_subject.place(relx=0.3, rely=0.25, anchor="w")
+            selected_subject = Entry(settings_canvas ,  font=("Helvetica Bold", 20), bg="white", 
+                                     fg="black", borderwidth=5, relief="groove") 
+            selected_subject.place(relx=0.1, rely=0.25, anchor="w")
+            selected_subject.insert(0, "XX:XX:XX")
             
         # The settings is where the exam supervisor can change the different exams taking place,
         # and the time for each exam. There will be no interactable widgets on the main display,
