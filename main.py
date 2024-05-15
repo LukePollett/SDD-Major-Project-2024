@@ -60,13 +60,10 @@ class ClockwiseScholar():
             # Also check if the selected option is a valid subject
                 # (this excludes stuff like "<< Select an Option >>", "-- Mandatory Courses --", and "-- Elective Courses --")
             def show():
-                if clicked.get() == "<< Select an Option >>": 
-                    pass
-                elif clicked.get() == "-- Mandatory Courses --":
-                    pass
-                elif clicked.get() == "-- Elective Courses --":
+                if clicked.get() == "<< Select a Subject >>": 
                     pass
                 else:
+                    # print(dropdown.current())
                     selected_subject.delete(0, END)
                     selected_subject.insert(0, clicked.get()) 
 
@@ -160,7 +157,7 @@ class ClockwiseScholar():
             check_box_variable = IntVar()
             multiple_exams_checkbox = tk.Checkbutton(settings_canvas, text='Multiple Exams', font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=check_box_variable, onvalue=1, offvalue=0, command=num_of_exams)
             multiple_exams_checkbox.place(relx=0.5, rely=0.1, anchor="center")
-
+  
             dropdown = OptionMenu(settings_canvas, clicked, *Stage_6_Subjects)
             dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
             dropdown.place(relx=0.1, rely=0.2, anchor="w")
