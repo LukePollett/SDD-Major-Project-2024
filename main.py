@@ -8,7 +8,7 @@ import math
 # Invigilation Software for the HSC (+ maybs other exams)
 
 # Create the main class for the ExamTimer
-class ClockwiseScholar():
+class BetterHSCTimer():
 
     # Initializing the main window
     def __init__(self):
@@ -22,7 +22,7 @@ class ClockwiseScholar():
         self.main_window.state('zoomed')
         self.main_window.geometry("%dx%d" % (width, height))
 
-        self.main_window.title("Clockwise Scholar - Examination Management and Timing")
+        self.main_window.title("BetterHSCTimer - Examination Management and Timing")
 
         # Create the canvas for the main window
         self.main_canvas = tk.Canvas(self.main_window, width=width, height=height, bg="white")
@@ -53,21 +53,21 @@ class ClockwiseScholar():
             settings_canvas = tk.Canvas(settings_window, width=700, height=700, bg="light grey")
             settings_canvas.pack()
 
-            b = tk.Button(settings_canvas, text="Done", font=('Helvetica Bold', 50), bg="white", fg="black", command=settings_window.destroy)
+            b = tk.Button(settings_canvas, text="Done", font=('Helvetica Bold', 25), bg="white", fg="black", command=settings_window.destroy)
             b.place(relx=0.5, rely=0.9, anchor="center")
 
-            # Displaying the selected option as a label (temporary, will implement more widgets)
-            # Also check if the selected option is a valid subject
-                # (this excludes stuff like "<< Select an Option >>", "-- Mandatory Courses --", and "-- Elective Courses --")
+            # Check if the selected option is a valid subject and display the subject on a label
             def show():
+                index = Stage_6_Subjects.index(str(clicked.get()))
                 if clicked.get() == "<< Select a Subject >>": 
                     pass
                 else:
-                    # print(dropdown.current())
+                    # clears current text on label
                     selected_subject.delete(0, END)
-                    selected_subject.insert(0, clicked.get()) 
+                    # inputs exam working time from chosen subject
+                    selected_subject.insert(0, Exam_working_times[index]) 
 
-            # ========================================================
+            # ======================Getting HSC Subjects==================================
 
             with open("HSC Subjects", "r") as subjects:
                 lines = subjects.readlines()
@@ -78,7 +78,7 @@ class ClockwiseScholar():
                 list1 = l.split(", ")
                 Stage_6_Subjects.append(list1[0].replace("\n", ""))
 
-            # ========================================================
+            # ======================Getting Exam Working Times============================
 
             with open("Exam Working Times", "r") as working_times:
                 lines = working_times.readlines()
@@ -89,7 +89,7 @@ class ClockwiseScholar():
                 list2 = l.split(", ")
                 Exam_working_times.append(list2[0].replace("\n", ""))
             
-            # ========================================================
+            # ======================Getting Exam Reading Times============================
 
             with open("Exam Reading Times", "r") as reading_times:
                 lines = reading_times.readlines()
@@ -113,10 +113,6 @@ class ClockwiseScholar():
             clicked4.set("<< Select a Subject >>")
 
             dropdown_width = len(max(Stage_6_Subjects, key=len))
-
-            def selected_num_of_exams():
-                class Examination():
-                    pass
                 
             def num_of_exams():
                 if check_box_variable.get() == 1:
@@ -315,4 +311,4 @@ class ClockwiseScholar():
         self.main_window.mainloop()
 
 # Run the program through the class 'ExamTimer'
-ClockwiseScholar()
+BetterHSCTimer()

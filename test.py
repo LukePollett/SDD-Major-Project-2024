@@ -8,35 +8,42 @@ Some code written here will be AI generated,
 This is just because i may be stuck and/or need suggestions on how to do a certain aspect of my program.
 I will not implement AI code word for word as this is big nono :(
 """
+  
+import tkinter as tk 
+from tkinter import ttk 
 
-with open("HSC Subjects", "r") as grilled_cheese:
-	lines = grilled_cheese.readlines()
-	
-Stage_6_Subjects = []
-	
-for l in lines:
-	list1 = l.split(", ")
-	Stage_6_Subjects.append(list1[0].replace("\n", ""))
-	
-# ====================================================================================================
-	
-with open("Exam Working Times", "r") as waffle:
-	lines = waffle.readlines()
-	
-Exam_working_times = []
-	
-for l in lines:
-	list2 = l.split(", ")
-	Exam_working_times.append(list2[0].replace("\n", ""))
-	
-# ====================================================================================================
-	
-with open("Exam Reading Times", "r") as pancake:
-	lines = pancake.readlines()
-	
-Exam_reading_times = []
-	
-for l in lines:
-	list3 = l.split(", ")
-	Exam_reading_times.append(list3[0].replace("\n", ""))
-	
+window = tk.Tk() 
+window.title('Combobox') 
+window.geometry('500x250') 
+  
+# label text for title 
+ttk.Label(window, text = "GFG Combobox Widget",  
+          background = 'green', foreground ="white",  
+          font = ("Times New Roman", 15)).grid(row = 0, column = 1) 
+  
+# label 
+ttk.Label(window, text = "Select the Month :", 
+          font = ("Times New Roman", 10)).grid(column = 0, 
+          row = 5, padx = 10, pady = 25) 
+  
+# Combobox creation 
+n = tk.StringVar() 
+monthchoosen = ttk.Combobox(window, width = 27, textvariable = n) 
+  
+# Adding combobox drop down list 
+monthchoosen['values'] = [' January',  
+                          ' February', 
+                          ' March', 
+                          ' April', 
+                          ' May', 
+                          ' June', 
+                          ' July', 
+                          ' August', 
+                          ' September', 
+                          ' October', 
+                          ' November', 
+                          ' December']
+  
+monthchoosen.grid(column = 1, row = 5) 
+monthchoosen.current() 
+window.mainloop() 
