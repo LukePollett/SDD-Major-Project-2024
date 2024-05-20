@@ -62,10 +62,41 @@ class BetterHSCTimer():
                 if clicked.get() == "<< Select a Subject >>": 
                     pass
                 else:
-                    # clears current text on label
-                    selected_subject.delete(0, END)
-                    # inputs exam working time from chosen subject
-                    selected_subject.insert(0, Exam_working_times[index]) 
+                    working_time = str(Exam_working_times[index])
+                    working_minutes = int(working_time[3:5])
+
+                    reading_time = str(Exam_reading_times[index])
+                    reading_minutes = int(reading_time[3:5])
+
+                    total = working_minutes + reading_minutes
+                    if total != 60:
+                        total = int(working_time[3:5]) + total
+
+                    hours = total // 60
+                    new_hours = int(working_time[1]) + hours
+                    minutes = total % 60
+
+                    if hours == 1:
+                        hour_string = working_time.replace(working_time[1], str(new_hours), 1)
+                        if len(str(minutes)) == 2:
+                            minute_string = hour_string.replace(hour_string[3:5], str(minutes), 1)
+                        else:
+                            minute_string = hour_string.replace(hour_string[3:5], "0" + str(minutes), 1)
+                        
+                        # clears current text on label
+                        selected_subject.delete(0, END)
+                        # inputs exam working time from chosen subject
+                        selected_subject.insert(0, minute_string) 
+                        
+                    else:
+                        if len(str(reading_minutes)) == 2:
+                            minute_string = working_time.replace(working_time[3:5], str(reading_minutes), 1)
+                        else:
+                            minute_string = working_time.replace(working_time[3:5], "0" + str(reading_minutes), 1)
+                        # clears current text on label
+                        selected_subject.delete(0, END)
+                        # inputs exam working time from chosen subject
+                        selected_subject.insert(0, minute_string)
 
             # ======================Getting HSC Subjects==================================
 
