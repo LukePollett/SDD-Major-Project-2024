@@ -1,7 +1,6 @@
 # Implemented Python Libraries:
 import tkinter as tk
 from tkinter import *
-from tkinter import messagebox
 import time
 from PIL import Image,ImageTk
 import math
@@ -34,33 +33,35 @@ class BetterHSCTimer():
         resized_bg = temp_img.resize((75, 75))
         button_image = ImageTk.PhotoImage(resized_bg)
 
-        def open_settings():
-
+        def open_settings():   
             # get main window position
             root_x = self.main_window.winfo_rootx()
             root_y = self.main_window.winfo_rooty()
 
             # add offset
-            win_x = root_x + 625
+            win_x = root_x + 704
             win_y = root_y + 10
 
             settings_window = tk.Toplevel()
             settings_window.geometry("700x700")
             settings_window.geometry(f'+{win_x}+{win_y}')  
 
-            settings_window.wm_attributes('-topmost', 'True', )
+            settings_window.wm_attributes('-topmost', 'True')
             settings_window.overrideredirect(True)
 
             settings_canvas = tk.Canvas(settings_window, width=700, height=700, bg="light grey")
             settings_canvas.pack()
+            
+            back_btn = tk.Button(settings_canvas, text="X", font=('Helvetica Bold', 50), width=2, height=1, bg="white", fg="black", command=settings_window.destroy)
+            back_btn.place(relx=1, rely=0, anchor="ne")
 
-            b = tk.Button(settings_canvas, text="Done", font=('Helvetica Bold', 25), bg="white", fg="black", command=settings_window.destroy)
-            b.place(relx=0.5, rely=0.9, anchor="center")
+            done_btn = tk.Button(settings_canvas, text="Done", font=('Helvetica Bold', 25), bg="white", fg="black", command=settings_window.destroy)
+            done_btn.place(relx=0.5, rely=0.9, anchor="center")
 
             # Check if the selected option is a valid subject and display the subject's exam timer on a label
             def show():
-                index = Stage_6_Subjects.index(str(clicked.get()))
-                if clicked.get() == "<< Select a Subject >>": 
+                index = Stage_6_Subjects.index(str(clicked1.get()))
+                if clicked1.get() == "<< Select a Subject >>": 
                     pass
                 else:
                     working_time = str(Exam_working_times[index])
@@ -94,9 +95,9 @@ class BetterHSCTimer():
 
             with open("HSC Subjects", "r") as subjects:
                 lines = subjects.readlines()
-    
+
             Stage_6_Subjects = []
-    
+
             for l in lines:
                 list1 = l.split(", ")
                 Stage_6_Subjects.append(list1[0].replace("\n", ""))
@@ -125,12 +126,12 @@ class BetterHSCTimer():
 
             # ========================================================
 
-            clicked = StringVar()
+            clicked1 = StringVar()
             clicked2 = StringVar()
             clicked3 = StringVar()
             clicked4 = StringVar() 
 
-            clicked.set("<< Select a Subject >>")
+            clicked1.set("<< Select a Subject >>")
             clicked2.set("<< Select a Subject >>")
             clicked3.set("<< Select a Subject >>")
             clicked4.set("<< Select a Subject >>")
@@ -176,8 +177,8 @@ class BetterHSCTimer():
             check_box_variable = IntVar()
             multiple_exams_checkbox = tk.Checkbutton(settings_canvas, text='Multiple Exams', font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=check_box_variable, onvalue=1, offvalue=0, command=num_of_exams)
             multiple_exams_checkbox.place(relx=0.5, rely=0.1, anchor="center")
-  
-            dropdown = OptionMenu(settings_canvas, clicked, *Stage_6_Subjects)
+
+            dropdown = OptionMenu(settings_canvas, clicked1, *Stage_6_Subjects)
             dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
             dropdown.place(relx=0.1, rely=0.2, anchor="w")
 
@@ -195,7 +196,7 @@ class BetterHSCTimer():
             fourth_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
             colons = Label(settings_canvas, width=10, font=("Arial", 32,""), 
-                               text="    :      :    ", fg="black", bg="light grey")
+                            text="    :      :    ", fg="black", bg="light grey")
             colons.place(relx=0.095, rely=0.25, anchor="w")
 
             hour=StringVar()
@@ -211,9 +212,9 @@ class BetterHSCTimer():
             minuteEntry.place(relx=0.19, rely=0.25, anchor="w")
 
             secondEntry= Entry(settings_canvas, width=3, font=("Arial",18,""),
-                               textvariable=second, bg="white", fg="black", borderwidth=5, relief="groove")
+                            textvariable=second, bg="white", fg="black", borderwidth=5, relief="groove")
             secondEntry.place(relx=0.28, rely=0.25, anchor="w")
-            
+
         # The settings is where the exam supervisor can change the different exams taking place,
         # and the time for each exam. There will be no interactable widgets on the main display,
         # except for the settings button itself, + exam timer controls (start, stop, clear, etc.)
@@ -222,7 +223,7 @@ class BetterHSCTimer():
 
         # Placeholder Stuff for Exam Timer and Subject Info
         self.labelframe = tk.LabelFrame(self.main_canvas, text="Examination Details", font=('Helvetica Bold', 20), width=1000, height=100, fg="black", bg="white", borderwidth=6)
-        self.labelframe.place(relx=0.5, rely=0.5, anchor="w")
+        self.labelframe.place(relx=0.7, rely=0.37, anchor="center")
 
         # Variable Names Below Are Temporary, just to simulate multiple exams
         self.labelframe_text1 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
@@ -241,8 +242,15 @@ class BetterHSCTimer():
         def Analog_Clock():      
         
             def draw_clock():
+
+                clock_frame = tk.Frame(self.main_canvas, width=550, height=500, bg="white")
+                clock_frame.place(relx=0.213, rely=0.37, anchor="center")
+                
+                frame_canvas = tk.Canvas(clock_frame, width=600, height=600, bg="white")
+                frame_canvas.place(relx=0.5, rely=0.5, anchor="center")
+
                 # Remove the previous sets of hands
-                self.main_canvas.delete("all")
+                frame_canvas.delete("all")
 
                 # Get current time
                 current_time = time.localtime()
@@ -259,9 +267,9 @@ class BetterHSCTimer():
 
                 # Draw Clock Face using tkinter-imbedded oval tool
 
-                self.main_canvas.create_oval((width/(width/140)), (height/(height/80)), (width/(width/570)), (height/(height/510)), outline="black" , width=8)
-                self.main_canvas.create_oval((width/(width/150)), (height/(height/90)), (width/(width/560)), (height/(height/500)), outline="lavender", width=5)
-                self.main_canvas.create_oval((width/(width/350)), (height/(height/290)), (width/(width/360)), (height/(height/300)), fill="black")
+                frame_canvas.create_oval(140, 80, 570, 510, outline="black" , width=8)
+                frame_canvas.create_oval(150, 90, 560, 500, outline="lavender", width=5)
+                frame_canvas.create_oval(350, 290, 360, 300, fill="black")
                 # self.main_canvas.create_oval(x0, y0, x1, y1, details ->...)
 
                 # Draw numbers on the clock face
@@ -270,47 +278,47 @@ class BetterHSCTimer():
 
                     # the below code generates the x and y coordinates for where the number/text will be placed:
                     # for the clock, we are using the sin/cosine maths functions which refers to the UNIT CIRCLE
-                    x = (width/(width/355)) + (width/(width/180)) * math.sin(angle)
-                    y = (height/(height/295)) - (height/(height/180)) * math.cos(angle)
+                    x = 355 + 180 * math.sin(angle)
+                    y = 295 - 180 * math.cos(angle)
 
                     # Draw the numbers using tkinter text tool
-                    self.main_canvas.create_text(x, y, text=str(i), font=("Helvetica", 25, "bold"), fill="black")
+                    frame_canvas.create_text(x, y, text=str(i), font=("Helvetica", 25, "bold"), fill="black")
                     # text=str(i) auto-fills the textbox with the number (1,2,3,...,12) as the for loop operates
 
                 # Draw notches
                 for i in range(60):
                     if i % 5 == 0:
                         angle = math.radians(i * 6) # 1 notch for every second (360 (degree) / 60 (seconds) = 6 (degrees per second))
-                        x1 = (width/(width/355)) + (width/(width/215)) * math.sin(angle)
-                        y1 = (height/(height/295)) - (height/(height/215)) * math.cos(angle)
-                        x2 = (width/(width/355)) + (width/(width/195)) * math.sin(angle)
-                        y2 = (height/(height/295)) - (height/(height/195)) * math.cos(angle)
-                        self.main_canvas.create_line(x1, y1, x2, y2, width=3, fill="black")
+                        x1 = 355 + 215 * math.sin(angle)
+                        y1 = 295 - 215 * math.cos(angle)
+                        x2 = 355 + 195 * math.sin(angle)
+                        y2 = 295 - 195 * math.cos(angle)
+                        frame_canvas.create_line(x1, y1, x2, y2, width=3, fill="black")
                         
                     else:
                         angle = math.radians(i * 6) # 1 notch for every second (360 (degree) / 60 (seconds) = 6 (degrees per second))
                         # edit these numbers to make them not slightly goofy??
-                        x1 = (width/(width/355)) + (width/(width/213)) * math.sin(angle)
-                        y1 = (height/(height/295)) - (height/(height/213)) * math.cos(angle)
-                        x2 = (width/(width/355)) + (width/(width/205)) * math.sin(angle)
-                        y2 = (height/(height/295)) - (height/(height/205)) * math.cos(angle)
-                        self.main_canvas.create_line(x1, y1, x2, y2, width=3, fill="black")
+                        x1 = 355 + 213 * math.sin(angle)
+                        y1 = 295 - 213 * math.cos(angle)
+                        x2 = 355 + 205 * math.sin(angle)
+                        y2 = 295 - 205 * math.cos(angle)
+                        frame_canvas.create_line(x1, y1, x2, y2, width=3, fill="black")
 
                 # Draw The Hands:
-                hour_x = (width/(width/355)) + (width/(width/120)) * math.sin(hour_angle)
-                hour_y = (height/(height/295)) - (height/(height/120)) * math.cos(hour_angle)
-                self.main_canvas.create_line((width/(width/355)), (height/(height/295)), hour_x, hour_y, fill="black", width=8)
+                hour_x = 355 + 120 * math.sin(hour_angle)
+                hour_y = 295 - 120 * math.cos(hour_angle)
+                frame_canvas.create_line(355, 295, hour_x, hour_y, fill="black", width=8)
 
-                minute_x = (width/(width/355)) + (width/(width/150)) * math.sin(minute_angle)
-                minute_y = (height/(height/295)) - (height/(height/150)) * math.cos(minute_angle)
-                self.main_canvas.create_line((width/(width/355)), (height/(height/295)), minute_x, minute_y, fill="black", width=4)
+                minute_x = 355 + 150 * math.sin(minute_angle)
+                minute_y = 295 - 150 * math.cos(minute_angle)
+                frame_canvas.create_line(355, 295, minute_x, minute_y, fill="black", width=4)
 
-                second_x = (width/(width/355)) + (width/(width/165)) * math.sin(second_angle)
-                second_y = (height/(height/295)) - (height/(height/165)) * math.cos(second_angle)
-                self.main_canvas.create_line((width/(width/355)), (height/(height/295)), second_x, second_y, fill="red", width=2)
+                second_x = 355 + 165 * math.sin(second_angle)
+                second_y = 295 - 165 * math.cos(second_angle)
+                frame_canvas.create_line(355, 295, second_x, second_y, fill="red", width=2)
 
                 # Update the clock every 1000 ms (1 second)
-                self.main_canvas.after(1000, draw_clock)
+                frame_canvas.after(1000, draw_clock)
 
             draw_clock()
 
@@ -340,5 +348,5 @@ class BetterHSCTimer():
         # Run the main window
         self.main_window.mainloop()
 
-# Run the program through the class 'ExamTimer'
+# Run the program through the class 'BetterHSCTimer'
 BetterHSCTimer()
