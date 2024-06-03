@@ -1,6 +1,7 @@
 # Implemented Python Libraries:
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox
 import time
 from PIL import Image,ImageTk
 import math
@@ -8,24 +9,24 @@ import math
 # Invigilation Software for the HSC (+ maybs other exams)
 
 # Create the main class for the ExamTimer
-class BetterHSCTimer():
+class BetterHSCTimer(tk.Tk):
 
     # Initializing the main window
     def __init__(self):
 
         # Window Properties
-        self.main_window = tk.Tk()
+        self.root = tk.Tk()
 
         # Making the window fullscreen (ish)
-        width = self.main_window.winfo_screenwidth() # MacBook Resolution = 1440 x 900
-        height = self.main_window.winfo_screenheight()
-        self.main_window.state('zoomed')
-        self.main_window.geometry("%dx%d" % (width, height))
+        width = self.root.winfo_screenwidth() # MacBook Resolution = 1440 x 900
+        height = self.root.winfo_screenheight()
+        self.root.state('zoomed')
+        self.root.geometry("%dx%d" % (width, height))
 
-        self.main_window.title("BetterHSCTimer - Examination Management and Timing")
+        self.root.title("BetterHSCTimer - Examination Management and Timing")
 
         # Create the canvas for the main window
-        self.main_canvas = tk.Canvas(self.main_window, width=width, height=height, bg="white")
+        self.main_canvas = tk.Canvas(self.root, width=width, height=height, bg="white")
         self.main_canvas.pack(side=tk.LEFT)
 
         # Create the settings button
@@ -35,8 +36,8 @@ class BetterHSCTimer():
 
         def open_settings():   
             # get main window position
-            root_x = self.main_window.winfo_rootx()
-            root_y = self.main_window.winfo_rooty()
+            root_x = self.root.winfo_rootx()
+            root_y = self.root.winfo_rooty()
 
             # add offset
             win_x = root_x + 704
@@ -55,15 +56,15 @@ class BetterHSCTimer():
             back_btn = tk.Button(settings_canvas, text="X", font=('Helvetica Bold', 50), width=2, height=1, bg="white", fg="black", command=settings_window.destroy)
             back_btn.place(relx=1, rely=0, anchor="ne")
 
-            done_btn = tk.Button(settings_canvas, text="Done", font=('Helvetica Bold', 25), bg="white", fg="black", command=settings_window.destroy)
+            done_btn = tk.Button(settings_canvas, text="Done", font=('Helvetica Bold', 25), bg="white", fg="black", command=transfer_subjects)
             done_btn.place(relx=0.5, rely=0.9, anchor="center")
 
             # Check if the selected option is a valid subject and display the subject's exam timer on a label
             def show():
-                index = Stage_6_Subjects.index(str(clicked1.get()))
                 if clicked1.get() == "<< Select a Subject >>": 
-                    pass
+                    messagebox.showerror('Exam Selection Error', 'Error: Please Pick a Valid Subject')
                 else:
+                    index = Stage_6_Subjects.index(str(clicked1.get()))
                     working_time = str(Exam_working_times[index])
                     working_minutes = int(working_time[3:5])
 
@@ -126,6 +127,7 @@ class BetterHSCTimer():
 
             # ========================================================
 
+            global clicked1, clicked2, clicked3, clicked4
             clicked1 = StringVar()
             clicked2 = StringVar()
             clicked3 = StringVar()
@@ -144,31 +146,33 @@ class BetterHSCTimer():
                     three.place(relx=0.5, rely=0.15, anchor = CENTER)
                     four.place(relx=0.65, rely=0.15, anchor = W)
                 else:
+                    var.set(0)
                     two.place_forget()
                     three.place_forget()
                     four.place_forget()
-                    second_dropdown.place_forget()
-                    third_dropdown.place_forget()
-                    fourth_dropdown.place_forget()
 
             def place_exams():
-                    if var.get() == 1:
-                        second_dropdown.place(relx=0.1, rely=0.4, anchor="w")
-                        third_dropdown.place_forget()
-                        fourth_dropdown.place_forget()
-                    elif var.get() == 2:
-                        second_dropdown.place(relx=0.1, rely=0.4, anchor="w")
-                        third_dropdown.place(relx=0.1, rely=0.5, anchor="w")
-                        fourth_dropdown.place_forget()
-                    elif var.get() == 3:
-                        second_dropdown.place(relx=0.1, rely=0.4, anchor="w")
-                        third_dropdown.place(relx=0.1, rely=0.5, anchor="w")
-                        fourth_dropdown.place(relx=0.1, rely=0.6, anchor="w")
-                    else:
-                        second_dropdown.place_forget()
-                        third_dropdown.place_forget()
-                        fourth_dropdown.place_forget()
+                if var.get() == 1:
+                    second_dropdown.config(state="normal")
+                    third_dropdown.config(state="disabled")
+                    fourth_dropdown.config(state="disabled")
+                
+                elif var.get() == 2:
+                    second_dropdown.config(state="normal")
+                    third_dropdown.config(state="normal")
+                    fourth_dropdown.config(state="disabled")
+             
+                elif var.get() == 3:
+                    second_dropdown.config(state="normal")
+                    third_dropdown.config(state="normal")
+                    fourth_dropdown.config(state="normal")
+              
+                else:
+                    second_dropdown.config(state="disabled")
+                    third_dropdown.config(state="disabled")
+                    fourth_dropdown.config(state="disabled")
 
+            global var
             var = IntVar()
             two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=1, command=place_exams)
             three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=2, command=place_exams)
@@ -195,6 +199,14 @@ class BetterHSCTimer():
             fourth_dropdown = OptionMenu(settings_canvas, clicked4, *Stage_6_Subjects)
             fourth_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
+            second_dropdown.place(relx=0.1, rely=0.4, anchor="w")
+            third_dropdown.place(relx=0.1, rely=0.6, anchor="w")
+            fourth_dropdown.place(relx=0.1, rely=0.8, anchor="w")
+
+            second_dropdown.config(state="disabled")
+            third_dropdown.config(state="disabled")
+            fourth_dropdown.config(state="disabled")
+
             colons = Label(settings_canvas, width=10, font=("Arial", 32,""), 
                             text="    :      :    ", fg="black", bg="light grey")
             colons.place(relx=0.095, rely=0.25, anchor="w")
@@ -203,6 +215,11 @@ class BetterHSCTimer():
             minute=StringVar()
             second=StringVar()
 
+            hour.set("00")
+            minute.set("00")
+            second.set("00")
+
+            global hourEntry, minuteEntry, secondEntry
             hourEntry= Entry(settings_canvas, width=3, font=("Arial",18,""),
                                 textvariable=hour, bg="white", fg="black", borderwidth=5, relief="groove")
             hourEntry.place(relx=0.1, rely=0.25, anchor="w")
@@ -215,28 +232,50 @@ class BetterHSCTimer():
                             textvariable=second, bg="white", fg="black", borderwidth=5, relief="groove")
             secondEntry.place(relx=0.28, rely=0.25, anchor="w")
 
+        labelframe = tk.LabelFrame(self.main_canvas, text="Examination Details", font=('Helvetica Bold', 20), width=600, height=500, fg="black", bg="white", borderwidth=6)
+        labelframe.place(relx=0.67, rely=0.37, anchor="center")
+
+        class ExamFrames():
+            def __init__(self):
+                if clicked1.get() == "<< Select a Subject >>":
+                    messagebox.showerror('Exam Selection Error', 'Error: Please Pick a Valid Subject')
+                else:
+                    for widget in labelframe.winfo_children():
+                        widget.destroy()
+                    if var.get() == 0:
+                        self.create_exam_frames("Exam 1", "Exam Name")
+
+                    elif var.get() == 1:
+                        self.create_exam_frames("Exam 1", "Exam Name")
+                        self.create_exam_frames("Exam 2", "Exam Name")
+
+                    elif var.get() == 2:
+                        self.create_exam_frames("Exam 1", "Exam Name")
+                        self.create_exam_frames("Exam 2", "Exam Name")
+                        self.create_exam_frames("Exam 3", "Exam Name")
+
+                    elif var.get() == 3:
+                        self.create_exam_frames("Exam 1", "Exam Name")
+                        self.create_exam_frames("Exam 2", "Exam Name")
+                        self.create_exam_frames("Exam 3", "Exam Name")
+                        self.create_exam_frames("Exam 4", "Exam Name")
+        
+            def create_exam_frames(self, frame_text, label_text):
+                exam_frame = LabelFrame(labelframe, text=frame_text, fg="black", bg="white", borderwidth=6)
+                exam_frame.pack(padx=10, pady=10)
+                
+                # Automatically add a label to the labelframe
+                label = Label(exam_frame, text=label_text, font=('Helvetica Bold', 20), bg="white", fg="black")
+                label.pack(padx=100, pady=20)
+
+        def transfer_subjects ():
+            ExamFrames()
+
         # The settings is where the exam supervisor can change the different exams taking place,
         # and the time for each exam. There will be no interactable widgets on the main display,
         # except for the settings button itself, + exam timer controls (start, stop, clear, etc.)
         self.settings_button = tk.Button(self.main_canvas, image=button_image, borderwidth=0, command=open_settings)
         self.settings_button.place(relx=0.975, rely=0.043, anchor="ne")
-
-        # Placeholder Stuff for Exam Timer and Subject Info
-        self.labelframe = tk.LabelFrame(self.main_canvas, text="Examination Details", font=('Helvetica Bold', 20), width=1000, height=100, fg="black", bg="white", borderwidth=6)
-        self.labelframe.place(relx=0.7, rely=0.37, anchor="center")
-
-        # Variable Names Below Are Temporary, just to simulate multiple exams
-        self.labelframe_text1 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
-        self.labelframe_text1.pack(padx=15, pady=50)
-
-        self.labelframe_text2 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
-        self.labelframe_text2.pack(padx=15, pady=50)
-
-        self.labelframe_text3 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
-        self.labelframe_text3.pack(padx=15, pady=50)
-
-        self.labelframe_text4 = tk.Label(self.labelframe, text="Subject/Exam Details Will Go Here eeeeeeeeeeeeeeee", font=('Helvetica Bold', 20), fg="black", bg="white")
-        self.labelframe_text4.pack(padx=15, pady=50)
 
         # Create analog clock face
         def Analog_Clock():      
@@ -339,14 +378,16 @@ class BetterHSCTimer():
             digi_clock_display.config(text=current_time)
 
             # Update the clock every 1000 ms (1 second)
-            self.main_window.after(1000, Digital_Clock)
+            self.root.after(1000, Digital_Clock)
 
         # Create/Draw Both Clocks
         Analog_Clock()
         Digital_Clock()
 
         # Run the main window
-        self.main_window.mainloop()
+        self.root.mainloop()
 
 # Run the program through the class 'BetterHSCTimer'
-BetterHSCTimer()
+if __name__ == "__main__":
+    app = BetterHSCTimer()
+    app.mainloop()
