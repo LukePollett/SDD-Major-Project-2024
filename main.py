@@ -61,10 +61,43 @@ class BetterHSCTimer(tk.Tk):
 
             # Check if the selected option is a valid subject and display the subject's exam timer on a label
             def show():
-                if clicked1.get() == "<< Select a Subject >>": 
-                    messagebox.showerror('Exam Selection Error', 'Error: Please Pick a Valid Subject')
-                else:
-                    index = Stage_6_Subjects.index(str(clicked1.get()))
+                if VAR.get() == 0:
+                    if CLICKED1.get()== "<< Select a Subject >>": 
+                        messagebox.showerror('Exam Selection Error', 'Error: Please Select At Least One Valid Subject')
+                    else:
+                        temp = 0
+                        get_exam_times(temp)
+                elif VAR.get() == 1:
+                    if CLICKED1.get() or CLICKED2.get()== "<< Select a Subject >>": 
+                        messagebox.showerror('Exam Selection Error', 'Error: Please Select Valid Subjects')
+                    else:
+                        temp = 1
+                        get_exam_times(temp)
+                elif VAR.get() == 2:
+                    if CLICKED1.get() or CLICKED2.get() or CLICKED3.get()== "<< Select a Subject >>": 
+                        messagebox.showerror('Exam Selection Error', 'Error: Please Select Valid Subjects')
+                    else:
+                        temp = 2
+                        get_exam_times(temp)
+                elif VAR.get() == 3:
+                    if CLICKED1.get() or CLICKED2.get() or CLICKED3.get() or CLICKED4.get()== "<< Select a Subject >>": 
+                        messagebox.showerror('Exam Selection Error', 'Error: Please Select Valid Subjects')
+                    else:
+                        temp = 3
+                        get_exam_times(temp)
+
+            # TURN THE THINGO BELOW INTO A DEF FUNCTION WITH PARAMETERS OF CLICKED1, CLICKED2, CLICKED3, CLICKED4
+            # if CLICKED1...if CLICKED2... etc.
+            #   def_function(CLICKED1/CLICKED2)
+            # PUT ALL OUTPUT RESULTS (NEWSTRING) INTO A LIST/LISTS (separate reading and writing time?)
+            exam_string_list = []
+
+            def get_exam_times(clicked_var):
+                clicked_var_list = [CLICKED1, CLICKED2, CLICKED3, CLICKED4]
+                i = 0
+                while i <= clicked_var:
+                    # variable = clicked_var_list[i]
+                    index = Stage_6_Subjects.index(str(clicked_var_list[i].get()))
                     working_time = str(Exam_working_times[index])
                     working_minutes = int(working_time[3:5])
 
@@ -73,24 +106,29 @@ class BetterHSCTimer(tk.Tk):
 
                     total = working_minutes + reading_minutes
 
+                    global NEW_STRING
                     if total > 60:
-                        new_string = working_time.replace(working_time[1], str((int(working_time[1]) + 1)), 1)
+                        NEW_STRING = working_time.replace(working_time[1], str((int(working_time[1]) + 1)), 1)
                         if len(str(total % 60)) == 2:
-                            new_string = new_string.replace(new_string[3:5], str(total % 60), 1)
+                            NEW_STRING = NEW_STRING.replace(NEW_STRING[3:5], str(total % 60), 1)
 
                     elif total == 60:
-                        new_string = working_time.replace(working_time[1], str((int(working_time[1]) + 1)), 1)
-                        new_string = new_string.replace(new_string[3:5], "00", 1)
+                        NEW_STRING = working_time.replace(working_time[1], str((int(working_time[1]) + 1)), 1)
+                        NEW_STRING = NEW_STRING.replace(NEW_STRING[3:5], "00", 1)
 
                     else:
                         if len(str(total % 60)) == 2:
-                            new_string = working_time.replace(working_time[3:5], str(total % 60), 1)
+                            NEW_STRING = working_time.replace(working_time[3:5], str(total % 60), 1)
                         else:
-                            new_string = working_time.replace(working_time[3:5], "0" + str(total % 60), 1)
+                            NEW_STRING = working_time.replace(working_time[3:5], "0" + str(total % 60), 1)
+                    
+                    i += 1
+                    exam_string_list.append(NEW_STRING)
+                    print(exam_string_list)
                         
-                    hour.set(new_string[:2])
-                    minute.set(new_string[3:5])
-                    second.set(new_string[6:8])
+                    HOUR.set(NEW_STRING[:2])
+                    MINUTE.set(NEW_STRING[3:5])
+                    SECOND.set(NEW_STRING[6:8])
 
             # ======================Getting HSC Subjects==================================
 
@@ -127,16 +165,16 @@ class BetterHSCTimer(tk.Tk):
 
             # ========================================================
 
-            global clicked1, clicked2, clicked3, clicked4
-            clicked1 = StringVar()
-            clicked2 = StringVar()
-            clicked3 = StringVar()
-            clicked4 = StringVar() 
+            global CLICKED1, CLICKED2, CLICKED3, CLICKED4
+            CLICKED1 = StringVar()
+            CLICKED2 = StringVar()
+            CLICKED3 = StringVar()
+            CLICKED4 = StringVar() 
 
-            clicked1.set("<< Select a Subject >>")
-            clicked2.set("<< Select a Subject >>")
-            clicked3.set("<< Select a Subject >>")
-            clicked4.set("<< Select a Subject >>")
+            CLICKED1.set("<< Select a Subject >>")
+            CLICKED2.set("<< Select a Subject >>")
+            CLICKED3.set("<< Select a Subject >>")
+            CLICKED4.set("<< Select a Subject >>")
 
             dropdown_width = len(max(Stage_6_Subjects, key=len))
                 
@@ -146,23 +184,26 @@ class BetterHSCTimer(tk.Tk):
                     three.place(relx=0.5, rely=0.15, anchor = CENTER)
                     four.place(relx=0.65, rely=0.15, anchor = W)
                 else:
-                    var.set(0)
+                    VAR.set(0)
                     two.place_forget()
                     three.place_forget()
                     four.place_forget()
+                    second_dropdown.config(state="disabled")
+                    third_dropdown.config(state="disabled")
+                    fourth_dropdown.config(state="disabled")
 
             def place_exams():
-                if var.get() == 1:
+                if VAR.get() == 1:
                     second_dropdown.config(state="normal")
                     third_dropdown.config(state="disabled")
                     fourth_dropdown.config(state="disabled")
                 
-                elif var.get() == 2:
+                elif VAR.get() == 2:
                     second_dropdown.config(state="normal")
                     third_dropdown.config(state="normal")
                     fourth_dropdown.config(state="disabled")
              
-                elif var.get() == 3:
+                elif VAR.get() == 3:
                     second_dropdown.config(state="normal")
                     third_dropdown.config(state="normal")
                     fourth_dropdown.config(state="normal")
@@ -172,31 +213,31 @@ class BetterHSCTimer(tk.Tk):
                     third_dropdown.config(state="disabled")
                     fourth_dropdown.config(state="disabled")
 
-            global var
-            var = IntVar()
-            two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=1, command=place_exams)
-            three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=2, command=place_exams)
-            four = Radiobutton(settings_canvas, text="Four Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=var, value=3, command=place_exams)
+            global VAR
+            VAR = IntVar()
+            two = Radiobutton(settings_canvas, text="Two Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=VAR, value=1, command=place_exams)
+            three = Radiobutton(settings_canvas, text="Three Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=VAR, value=2, command=place_exams)
+            four = Radiobutton(settings_canvas, text="Four Exams", font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=VAR, value=3, command=place_exams)
 
             check_box_variable = IntVar()
             multiple_exams_checkbox = tk.Checkbutton(settings_canvas, text='Multiple Exams', font=("Helvetica Bold", 20), bg="light grey", fg="black", variable=check_box_variable, onvalue=1, offvalue=0, command=num_of_exams)
             multiple_exams_checkbox.place(relx=0.5, rely=0.1, anchor="center")
 
-            dropdown = OptionMenu(settings_canvas, clicked1, *Stage_6_Subjects)
+            dropdown = OptionMenu(settings_canvas, CLICKED1, *Stage_6_Subjects)
             dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
             dropdown.place(relx=0.1, rely=0.2, anchor="w")
 
             # Create button, it will change label text 
-            button = Button(settings_canvas , text = "Confirm", font=("Helvetica Bold", 20), bg="light grey", border=0, command = show)
-            button.place(relx=0.77, rely=0.2, anchor="w")
+            conf_button = Button(settings_canvas , text = "Confirm", font=("Helvetica Bold", 20), bg="light grey", border=0, command = show)
+            conf_button.place(relx=0.77, rely=0.2, anchor="w")
 
-            second_dropdown = OptionMenu(settings_canvas, clicked2, *Stage_6_Subjects)
+            second_dropdown = OptionMenu(settings_canvas, CLICKED2, *Stage_6_Subjects)
             second_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
-            third_dropdown = OptionMenu(settings_canvas, clicked3, *Stage_6_Subjects)
+            third_dropdown = OptionMenu(settings_canvas, CLICKED3, *Stage_6_Subjects)
             third_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
             
-            fourth_dropdown = OptionMenu(settings_canvas, clicked4, *Stage_6_Subjects)
+            fourth_dropdown = OptionMenu(settings_canvas, CLICKED4, *Stage_6_Subjects)
             fourth_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
             second_dropdown.place(relx=0.1, rely=0.4, anchor="w")
@@ -211,65 +252,96 @@ class BetterHSCTimer(tk.Tk):
                             text="    :      :    ", fg="black", bg="light grey")
             colons.place(relx=0.095, rely=0.25, anchor="w")
 
-            hour=StringVar()
-            minute=StringVar()
-            second=StringVar()
+            global HOUR, MINUTE, SECOND
+            HOUR=StringVar()
+            MINUTE=StringVar()
+            SECOND=StringVar()
 
-            hour.set("00")
-            minute.set("00")
-            second.set("00")
+            HOUR.set("00")
+            MINUTE.set("00")
+            SECOND.set("00")
 
             global hourEntry, minuteEntry, secondEntry
             hourEntry= Entry(settings_canvas, width=3, font=("Arial",18,""),
-                                textvariable=hour, bg="white", fg="black", borderwidth=5, relief="groove")
+                                textvariable=HOUR, bg="white", fg="black", borderwidth=5, relief="groove")
             hourEntry.place(relx=0.1, rely=0.25, anchor="w")
 
             minuteEntry= Entry(settings_canvas, width=3, font=("Arial",18,""),
-                                textvariable=minute, bg="white", fg="black", borderwidth=5, relief="groove")
+                                textvariable=MINUTE, bg="white", fg="black", borderwidth=5, relief="groove")
             minuteEntry.place(relx=0.19, rely=0.25, anchor="w")
 
             secondEntry= Entry(settings_canvas, width=3, font=("Arial",18,""),
-                            textvariable=second, bg="white", fg="black", borderwidth=5, relief="groove")
+                            textvariable=SECOND, bg="white", fg="black", borderwidth=5, relief="groove")
             secondEntry.place(relx=0.28, rely=0.25, anchor="w")
 
-        labelframe = tk.LabelFrame(self.main_canvas, text="Examination Details", font=('Helvetica Bold', 20), width=600, height=500, fg="black", bg="white", borderwidth=6)
-        labelframe.place(relx=0.67, rely=0.37, anchor="center")
+        labelframe = tk.LabelFrame(self.main_canvas, text="Examinations", font=('Helvetica Bold', 20), width=600, height=500, fg="black", bg="white", borderwidth=6)
+        labelframe.place(relx=0.67, rely=0.33, anchor="center")
+        labelframe.pack_propagate(False)
 
         class ExamFrames():
             def __init__(self):
-                if clicked1.get() == "<< Select a Subject >>":
-                    messagebox.showerror('Exam Selection Error', 'Error: Please Pick a Valid Subject')
-                else:
+                # if CLICKED1.get() == "<< Select a Subject >>":
+                #     messagebox.showerror('Exam Selection Error', 'Error: Please Select At Least One Valid Subject')
+                # else:
                     for widget in labelframe.winfo_children():
                         widget.destroy()
-                    if var.get() == 0:
-                        self.create_exam_frames("Exam 1", "Exam Name")
+                    if VAR.get() == 0:
+                        self.create_exam_frames("Exam #1", f"HSC {str(CLICKED1.get())}2024")
 
-                    elif var.get() == 1:
-                        self.create_exam_frames("Exam 1", "Exam Name")
-                        self.create_exam_frames("Exam 2", "Exam Name")
+                    elif VAR.get() == 1:
+                        self.create_exam_frames("Exam #1", f"HSC {str(CLICKED1.get())}2024")
+                        self.create_exam_frames("Exam #2", f"HSC {str(CLICKED2.get())}2024")
 
-                    elif var.get() == 2:
-                        self.create_exam_frames("Exam 1", "Exam Name")
-                        self.create_exam_frames("Exam 2", "Exam Name")
-                        self.create_exam_frames("Exam 3", "Exam Name")
+                    elif VAR.get() == 2:
+                        self.create_exam_frames("Exam #1", f"HSC {str(CLICKED1.get())}2024")
+                        self.create_exam_frames("Exam #2", f"HSC {str(CLICKED2.get())}2024")
+                        self.create_exam_frames("Exam #3", f"HSC {str(CLICKED3.get())}2024")
 
-                    elif var.get() == 3:
-                        self.create_exam_frames("Exam 1", "Exam Name")
-                        self.create_exam_frames("Exam 2", "Exam Name")
-                        self.create_exam_frames("Exam 3", "Exam Name")
-                        self.create_exam_frames("Exam 4", "Exam Name")
+                    elif VAR.get() == 3:
+                        self.create_exam_frames("Exam #1", f"HSC {str(CLICKED1.get())}2024")
+                        self.create_exam_frames("Exam #2", f"HSC {str(CLICKED2.get())}2024")
+                        self.create_exam_frames("Exam #3", f"HSC {str(CLICKED3.get())}2024")
+                        self.create_exam_frames("Exam #4", f"HSC {str(CLICKED4.get())}2024")
         
             def create_exam_frames(self, frame_text, label_text):
-                exam_frame = LabelFrame(labelframe, text=frame_text, fg="black", bg="white", borderwidth=6)
+                exam_frame = tk.LabelFrame(labelframe, text=frame_text, font=('Helvetica Bold', 17), fg="black", bg="white", borderwidth=0, foreground="gray63")
                 exam_frame.pack(padx=10, pady=10)
-                
+
                 # Automatically add a label to the labelframe
-                label = Label(exam_frame, text=label_text, font=('Helvetica Bold', 20), bg="white", fg="black")
-                label.pack(padx=100, pady=20)
+                label = Label(exam_frame, text=label_text, font=('Helvetica Bold', 20), bg="white", fg="black", width=590)
+                label.pack(pady=20)
 
         def transfer_subjects ():
-            ExamFrames()
+            if CLICKED1.get() == "<< Select a Subject >>":
+                    messagebox.showerror('Exam Selection Error', 'Error: Please Select At Least One Valid Subject')
+            else:
+                ExamFrames()
+                config_timer()
+
+        reading_time = 0
+
+        working_time = 0
+
+        paused = False
+
+        def config_timer():
+            # convert all CLICKED variables into a list, and use .max() function to find exam with longest time
+            hr, min, sec = NEW_STRING.split(":")
+            total_time = int(hr) * 3600 + int(min) * 60 + int(sec)
+            exam_timer_lbl.config(text=f"{total_time//3600:02}:{(total_time//60)%60:02}:{total_time%60:02}")
+            print(total_time)
+
+        exam_timer_lbl = Label(self.root, text="00:00:00", font=('Helvetica Bold', 90), bg="white", fg="black", borderwidth=10, relief="groove")
+        exam_timer_lbl.place(relx=0.67, rely=0.7, anchor="n")
+
+        start_btn = Button(self.root , text = "Start", font=("Helvetica Bold", 30), bg="light grey", border=0, width=7, command = None)
+        start_btn.place(relx=0.507, rely=0.89, anchor="w")
+
+        pause_btn = Button(self.root , text = "Pause", font=("Helvetica Bold", 30), bg="light grey", border=0, width=7, command = None)
+        pause_btn.place(relx=0.67, rely=0.89, anchor="center")
+
+        clear_btn = Button(self.root , text = "Clear", font=("Helvetica Bold", 30), bg="light grey", border=0, width=7, command = None)
+        clear_btn.place(relx=0.835, rely=0.89, anchor="e")
 
         # The settings is where the exam supervisor can change the different exams taking place,
         # and the time for each exam. There will be no interactable widgets on the main display,
@@ -305,7 +377,6 @@ class BetterHSCTimer(tk.Tk):
                 hour_angle = math.radians((hour % 12) * 30 + minute / 2) # the + minute / 2 does the same ^ for the hour hand
 
                 # Draw Clock Face using tkinter-imbedded oval tool
-
                 frame_canvas.create_oval(140, 80, 570, 510, outline="black" , width=8)
                 frame_canvas.create_oval(150, 90, 560, 500, outline="lavender", width=5)
                 frame_canvas.create_oval(350, 290, 360, 300, fill="black")
@@ -367,7 +438,7 @@ class BetterHSCTimer(tk.Tk):
             # Create the digital clock display
             digi_clock_display = tk.Label(self.main_canvas, text="", font=('Helvetica Bold', 75), bg="white", 
                               fg="black", borderwidth=10, relief="groove")
-            digi_clock_display.place(relx=0.25, rely=0.75, anchor="n")
+            digi_clock_display.place(relx=0.245, rely=0.75, anchor="n")
 
             # Get the current time
             current_time = time.strftime('%I:%M:%S %p')
@@ -391,3 +462,4 @@ class BetterHSCTimer(tk.Tk):
 if __name__ == "__main__":
     app = BetterHSCTimer()
     app.mainloop()
+
