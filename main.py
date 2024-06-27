@@ -68,6 +68,12 @@ def settings_menu():
 
     # show() is run When the user has chosen all of their subjects
     def show():
+        # prevent the user from exiting out of their choice - this prevents an error in the code
+        multiple_exams_checkbox.config(state="disabled")
+        two.config(state="disabled")
+        three.config(state="disabled")
+        four.config(state="disabled")
+
         # Immediately performs a check to see if all subjects have been selected based on how many they exams they chose
         # VAR is the value of the radio button(s) on the settings window
         # if a subject has been left blank (has the option '<< Select a Subject >>'), the application displays a popup error message box
@@ -547,13 +553,13 @@ def countdown_timer():
 
 # when 'Clear' button is pressed
 def clear_exams():
-    # gets main window out of 'exam mode' by bringing buttons back
-    settings_button.place(relx=0.975, rely=0.043, anchor="ne")
-    clear_btn.place_forget()
-
     # changes all of the exam's remaining time to "Stopped", this will in turn cancel the countdown function
     for i in range(len(exam_total_length)):
         exam_total_length[i] = "Stopped"
+
+    # gets main window out of 'exam mode' by bringing buttons back
+    settings_button.place(relx=0.975, rely=0.043, anchor="ne")
+    clear_btn.place_forget()
 
     # removes all 'exam groups' from the exam display
     for widget in labelframe.winfo_children():
