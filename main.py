@@ -53,11 +53,11 @@ def settings_menu():
     back_btn.place(relx=1, rely=0, anchor="ne")
 
     # Variables below are associated with the NAME of the subject chosen
-    global CLICKED1, CLICKED2, CLICKED3, CLICKED4
-    CLICKED1 = StringVar()
-    CLICKED2 = StringVar()
-    CLICKED3 = StringVar()
-    CLICKED4 = StringVar() 
+    global SUBJECT_VAR_1, SUBJECT_VAR_2, SUBJECT_VAR_3, SUBJECT_VAR_4
+    SUBJECT_VAR_1 = StringVar()
+    SUBJECT_VAR_2 = StringVar()
+    SUBJECT_VAR_3 = StringVar()
+    SUBJECT_VAR_4 = StringVar() 
 
     # Variables below are associated with the LENGTH of the chosen exam
     global TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4
@@ -76,7 +76,7 @@ def settings_menu():
         # function with the number of subjects the user chose as a parameter
 
         if VAR.get() == 0:
-            if CLICKED1.get()== "<< Select a Subject >>": 
+            if SUBJECT_VAR_1.get()== "<< Select a Subject >>": 
                 messagebox.showerror('Exam Selection Error', 'Error: Please Select At Least One Valid Subject')
             else:
                 clicked_var = 0
@@ -85,7 +85,7 @@ def settings_menu():
                 conf_button.place(relx=0.5, rely=0.9, anchor="center")
 
         elif VAR.get() == 1:
-            if CLICKED1.get()== "<< Select a Subject >>" or CLICKED2.get()== "<< Select a Subject >>": 
+            if SUBJECT_VAR_1.get()== "<< Select a Subject >>" or SUBJECT_VAR_2.get()== "<< Select a Subject >>": 
                 messagebox.showerror('Exam Selection Error', 'Error: Please Ensure All Subjects Are Selected')
             else:
                 clicked_var = 1
@@ -94,7 +94,7 @@ def settings_menu():
                 conf_button.place(relx=0.5, rely=0.9, anchor="center")
 
         elif VAR.get() == 2:
-            if CLICKED1.get()== "<< Select a Subject >>" or CLICKED2.get()== "<< Select a Subject >>" or CLICKED3.get()== "<< Select a Subject >>": 
+            if SUBJECT_VAR_1.get()== "<< Select a Subject >>" or SUBJECT_VAR_2.get()== "<< Select a Subject >>" or SUBJECT_VAR_3.get()== "<< Select a Subject >>": 
                 messagebox.showerror('Exam Selection Error', 'Error: Please Ensure All Subjects Are Selected')
             else:
                 clicked_var = 2
@@ -103,7 +103,7 @@ def settings_menu():
                 conf_button.place(relx=0.5, rely=0.9, anchor="center")
 
         elif VAR.get() == 3:
-            if CLICKED1.get()== "<< Select a Subject >>" or CLICKED2.get()== "<< Select a Subject >>" or CLICKED3.get()== "<< Select a Subject >>" or CLICKED4.get()== "<< Select a Subject >>": 
+            if SUBJECT_VAR_1.get()== "<< Select a Subject >>" or SUBJECT_VAR_2.get()== "<< Select a Subject >>" or SUBJECT_VAR_3.get()== "<< Select a Subject >>" or SUBJECT_VAR_4.get()== "<< Select a Subject >>": 
                 messagebox.showerror('Exam Selection Error', 'Error: Please Ensure All Subjects Are Selected')
             else:
                 clicked_var = 3
@@ -120,7 +120,7 @@ def settings_menu():
     time_var_list = [TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4]
 
     # list of exam  NAMES
-    clicked_var_list = [CLICKED1, CLICKED2, CLICKED3, CLICKED4]
+    clicked_var_list = [SUBJECT_VAR_1, SUBJECT_VAR_2, SUBJECT_VAR_3, SUBJECT_VAR_4]
 
     # get_exam_times(clicked_var) uses the number of exams the user has chosen as a parameter
     # the function loops through each subject and calculates its total time (working + reading) and adds it to the list exam_total_length
@@ -178,7 +178,7 @@ def settings_menu():
                             break
                     else:
                         # add a new 'Examination' to the main window
-                        ExamFrames(labelframe, VAR, CLICKED1, CLICKED2, CLICKED3, CLICKED4, TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4)
+                        ExamFrames(labelframe, VAR, SUBJECT_VAR_1, SUBJECT_VAR_2, SUBJECT_VAR_3, SUBJECT_VAR_4, TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4)
                 else:
                     messagebox.showerror('Exam Selection Error', 'Error: Please Enter A Valid Exam Time In The Format "HH:MM:SS"')
                     break
@@ -227,10 +227,10 @@ def settings_menu():
     # ========================================================
 
     # set the default value of all the dropdowns to "<< Select a Subject >>"
-    CLICKED1.set("<< Select a Subject >>")
-    CLICKED2.set("<< Select a Subject >>")
-    CLICKED3.set("<< Select a Subject >>")
-    CLICKED4.set("<< Select a Subject >>")
+    SUBJECT_VAR_1.set("<< Select a Subject >>")
+    SUBJECT_VAR_2.set("<< Select a Subject >>")
+    SUBJECT_VAR_3.set("<< Select a Subject >>")
+    SUBJECT_VAR_4.set("<< Select a Subject >>")
 
     # ensures all the names of the subjects can fit on the dropdown menu
     dropdown_width = len(max(Stage_6_Subjects, key=len))
@@ -251,10 +251,10 @@ def settings_menu():
             three.place_forget()
             four.place_forget()
             exam_total_length.clear()
-            CLICKED1.set("<< Select a Subject >>")
-            CLICKED2.set("<< Select a Subject >>")
-            CLICKED3.set("<< Select a Subject >>")
-            CLICKED4.set("<< Select a Subject >>")
+            SUBJECT_VAR_1.set("<< Select a Subject >>")
+            SUBJECT_VAR_2.set("<< Select a Subject >>")
+            SUBJECT_VAR_3.set("<< Select a Subject >>")
+            SUBJECT_VAR_4.set("<< Select a Subject >>")
             second_dropdown.config(state="disabled")
             third_dropdown.config(state="disabled")
             fourth_dropdown.config(state="disabled")
@@ -263,10 +263,10 @@ def settings_menu():
     def place_exams():
         # if the user changes their mind on how many exams they want, reset all of their choices
         exam_total_length.clear()
-        CLICKED1.set("<< Select a Subject >>")
-        CLICKED2.set("<< Select a Subject >>")
-        CLICKED3.set("<< Select a Subject >>")
-        CLICKED4.set("<< Select a Subject >>")
+        SUBJECT_VAR_1.set("<< Select a Subject >>")
+        SUBJECT_VAR_2.set("<< Select a Subject >>")
+        SUBJECT_VAR_3.set("<< Select a Subject >>")
+        SUBJECT_VAR_4.set("<< Select a Subject >>")
 
         if VAR.get() == 1:
             exam_total_length.clear()
@@ -312,7 +312,7 @@ def settings_menu():
     multiple_exams_checkbox.place(relx=0.5, rely=0.1, anchor="center")
 
     # define and place the first subject dropdown manu
-    first_dropdown = OptionMenu(settings_canvas, CLICKED1, *Stage_6_Subjects)
+    first_dropdown = OptionMenu(settings_canvas, SUBJECT_VAR_1, *Stage_6_Subjects)
     first_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
     first_dropdown.place(relx=0.1, rely=0.2, anchor="w")
 
@@ -330,15 +330,15 @@ def settings_menu():
     conf_button = Button(settings_canvas , text = "Confirm Subject Choices", font=("Helvetica Bold", 30), bg="light grey", border=0, command=confirm)
 
     # define and place the second subject dropdown manu
-    second_dropdown = OptionMenu(settings_canvas, CLICKED2, *Stage_6_Subjects)
+    second_dropdown = OptionMenu(settings_canvas, SUBJECT_VAR_2, *Stage_6_Subjects)
     second_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
     # define and place the third subject dropdown manu
-    third_dropdown = OptionMenu(settings_canvas, CLICKED3, *Stage_6_Subjects)
+    third_dropdown = OptionMenu(settings_canvas, SUBJECT_VAR_3, *Stage_6_Subjects)
     third_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
     
     # define and place the fourth subject dropdown manu
-    fourth_dropdown = OptionMenu(settings_canvas, CLICKED4, *Stage_6_Subjects)
+    fourth_dropdown = OptionMenu(settings_canvas, SUBJECT_VAR_4, *Stage_6_Subjects)
     fourth_dropdown.config(width=dropdown_width, font=('Helvetica Bold', 20), bg="light grey", fg="black")
 
     # place all 3 of the additionaldropdowns
@@ -385,7 +385,7 @@ labelframe.pack_propagate(False)
 # class ExamFrames() creates an 'Exam Group' for EVERY SUBJECT chosen by the user
 # Each 'Exam Group' consists of the name of the subject, the time remaining as well as the start and finish times of the exam
 class ExamFrames():
-    def __init__(self, labelframe, VAR, CLICKED1, CLICKED2, CLICKED3, CLICKED4, TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4):
+    def __init__(self, labelframe, VAR, SUBJECT_VAR_1, SUBJECT_VAR_2, SUBJECT_VAR_3, SUBJECT_VAR_4, TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4):
         self.timers = {}
         self.start_times = {}
         self.end_times = {}
@@ -396,22 +396,22 @@ class ExamFrames():
 
         # Get the amount of exams selected by the user and create appropriate amount of exam groups based on this
         if VAR.get() == 0:
-            self.create_exam_frames("Exam #1", str(CLICKED1.get()), TIME_VAR_1.get(), "Exam1")
+            self.create_exam_frames("Exam #1", str(SUBJECT_VAR_1.get()), TIME_VAR_1.get(), "Exam1")
 
         elif VAR.get() == 1:
-            self.create_exam_frames("Exam #1", str(CLICKED1.get()), TIME_VAR_1.get(), "Exam1")
-            self.create_exam_frames("Exam #2", str(CLICKED2.get()), TIME_VAR_2.get(), "Exam2")
+            self.create_exam_frames("Exam #1", str(SUBJECT_VAR_1.get()), TIME_VAR_1.get(), "Exam1")
+            self.create_exam_frames("Exam #2", str(SUBJECT_VAR_2.get()), TIME_VAR_2.get(), "Exam2")
 
         elif VAR.get() == 2:
-            self.create_exam_frames("Exam #1", str(CLICKED1.get()), TIME_VAR_1.get(), "Exam1")
-            self.create_exam_frames("Exam #2", str(CLICKED2.get()), TIME_VAR_2.get(), "Exam2")
-            self.create_exam_frames("Exam #3", str(CLICKED3.get()), TIME_VAR_3.get(), "Exam3")
+            self.create_exam_frames("Exam #1", str(SUBJECT_VAR_1.get()), TIME_VAR_1.get(), "Exam1")
+            self.create_exam_frames("Exam #2", str(SUBJECT_VAR_2.get()), TIME_VAR_2.get(), "Exam2")
+            self.create_exam_frames("Exam #3", str(SUBJECT_VAR_3.get()), TIME_VAR_3.get(), "Exam3")
 
         elif VAR.get() == 3:
-            self.create_exam_frames("Exam #1", str(CLICKED1.get()), TIME_VAR_1.get(), "Exam1")
-            self.create_exam_frames("Exam #2", str(CLICKED2.get()), TIME_VAR_2.get(), "Exam2")
-            self.create_exam_frames("Exam #3", str(CLICKED3.get()), TIME_VAR_3.get(), "Exam3")
-            self.create_exam_frames("Exam #4", str(CLICKED4.get()), TIME_VAR_4.get(), "Exam4")
+            self.create_exam_frames("Exam #1", str(SUBJECT_VAR_1.get()), TIME_VAR_1.get(), "Exam1")
+            self.create_exam_frames("Exam #2", str(SUBJECT_VAR_2.get()), TIME_VAR_2.get(), "Exam2")
+            self.create_exam_frames("Exam #3", str(SUBJECT_VAR_3.get()), TIME_VAR_3.get(), "Exam3")
+            self.create_exam_frames("Exam #4", str(SUBJECT_VAR_4.get()), TIME_VAR_4.get(), "Exam4")
 
 # create_exam_frames with the parameters: self, title of 'exam group', text to be displayed on the label (Subject name), 
 #                                         text to displayed on the timer (Subject total time), unique label identifier (helps 
@@ -472,7 +472,7 @@ def start_exam():
     start_btn.place_forget()
     clear_btn.place(relx=0.67, rely=0.89, anchor="center")
     global examination_frames, exam_key_list
-    examination_frames = ExamFrames(labelframe, VAR, CLICKED1, CLICKED2, CLICKED3, CLICKED4, TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4)
+    examination_frames = ExamFrames(labelframe, VAR, SUBJECT_VAR_1, SUBJECT_VAR_2, SUBJECT_VAR_3, SUBJECT_VAR_4, TIME_VAR_1, TIME_VAR_2, TIME_VAR_3, TIME_VAR_4)
     exam_key_list = ["Exam1", "Exam2", "Exam3", "Exam4"]
     calculate_start_end_times()
     countdown_timer()
