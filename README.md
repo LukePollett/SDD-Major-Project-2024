@@ -1,5 +1,5 @@
 # BetterHSCTimer Application
-![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/App%20Logo.png)
+![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/README%20images/App%20Logo.png)
 BetterHSCTimer is an application for both the students and the invigilators! Imagine you're sitting your HSC examination and you look up at the projector on stage 
 to see an abomination of windows that picasso himself would mistake for one of his masterpieces, an amalgamation of Notepads and a Clock app haunt your eyes for the next 3 hours.
 Now, I know what you're thinking... "that doesn't sound like an experience I want to be in for my HSC!". Well you're in luck! BetterHSCTimer is an Exam Invigilation software that
@@ -67,9 +67,9 @@ This program is an open-source public domain, feel free to customise this code t
 
 
 ## Visuals
-![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/BHSCT_GUI.png)
-![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/BHSCT_SW.png)
-![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/BHSCT_DD.png)
+![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/README%20images/BHSCT_GUI.png)
+![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/README%20images/BHSCT_SW.png)
+![alt text](https://github.com/LukePollett/SDD-Major-Project-2024/blob/main/README%20images/BHSCT_DD.png)
 
 
 
