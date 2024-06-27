@@ -191,7 +191,7 @@ def settings_menu():
     # reads the text file 'HSC Subjects' and adds all subjects to an array
     def get_subjects():
         global Stage_6_Subjects, Exam_working_times, Exam_reading_times
-        with open("HSC Subjects", "r") as subjects:
+        with open("HSC Text Files/HSC Subjects", "r") as subjects:
             lines = subjects.readlines()
 
         Stage_6_Subjects = []
@@ -202,7 +202,7 @@ def settings_menu():
 
         # ======================Getting Exam Working Times============================
         # reads the text file 'HSC Subjects' and adds all subjects to an array
-        with open("Exam Working Times", "r") as working_times:
+        with open("HSC Text Files/Exam Working Times", "r") as working_times:
             lines = working_times.readlines()
 
         Exam_working_times = []
@@ -213,7 +213,7 @@ def settings_menu():
         
         # ======================Getting Exam Reading Times============================
         # reads the text file 'HSC Subjects' and adds all subjects to an array
-        with open("Exam Reading Times", "r") as reading_times:
+        with open("HSC Text Files/Exam Reading Times", "r") as reading_times:
             lines = reading_times.readlines()
 
         Exam_reading_times = []
